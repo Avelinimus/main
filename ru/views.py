@@ -1,15 +1,18 @@
 from django.shortcuts import render
+from django.views.generic import ListView, DetailView
+from .models import Products
+
 
 # Create your views here.
 
-
-def index(request):
-    return render(request, 'ru/index.html')
-
-
-def contacts(request):
-    return render(request, 'ru/contacts.html')
+def contact(request):
+    return render(request, 'ru/contact.html')
 
 
-def payments(request):
-    return render(request, 'ru/payments.html')
+def payment(request):
+    return render(request, 'ru/payment.html')
+
+
+class ProductsListView(ListView):
+    model = Products
+

@@ -1,5 +1,5 @@
-<!DOCTYPE html>
 {% extends 'base.html' %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     {% load static %}
@@ -16,10 +16,10 @@
                              <a class="nav-link" href="#">Акции</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url "ru:payments" %}">Доставка и оплата</a>
+                            <a class="nav-link" href="{% url "ru:payment" %}">Доставка и оплата</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url "ru:contacts" %}">Контакты</a>
+                            <a class="nav-link" href="{% url "ru:contact" %}">Контакты</a>
                         </li>
                     </ul>
                 </div>
@@ -41,6 +41,9 @@
             <div class="products">
                 <div class="col-4 block">A</div>
             </div>
+        {% for catalog in catalog_list %}
+
+        {% endfor %}
     {% endblock %}
 </body>
 </html>

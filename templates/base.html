@@ -6,6 +6,7 @@
     <link rel="stylesheet" href = "{% static 'css/styles.css' %}">
     <link rel="stylesheet" href = "{% static 'css/bootstrap_menu.css' %}">
     <meta charset="UTF-8">
+    <meta name="viewport" content = "width=device-width">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     {% block title %}<title></title>{% endblock %}
 </head>
@@ -25,10 +26,10 @@
                              <a class="nav-link" href="#">Акции</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url "ru:payments" %}">Доставка и оплата</a>
+                            <a class="nav-link" href="{% url "ru:payment" %}">Доставка и оплата</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url "ru:contacts" %}">Контакты</a>
+                            <a class="nav-link" href="{% url "ru:contact" %}">Контакты</a>
                         </li>
                     </ul>
                 </div>
@@ -49,9 +50,9 @@
     </div>
 
     <div class="row block_02">
-        <div class="col-12"><a href="{% url "ru:index" %}"><img src="{% static 'ru/images/main_img.png' %}" align="center"></a>
+        <div class="col-12"><a href="{% url "ru:products_list" %}"><img src="{% static 'ru/images/main_img.png' %}" align="center"></a>
         </div>
-        <div class="col-12 categories">
+        <div class="col-12 categories" style="padding-top: 15px">
             <ul>
                 <li>
                     <a href="#">Акции</a>
