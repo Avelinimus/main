@@ -1,3 +1,15 @@
+h1{
+    width: 100%;
+    text-align: center;
+}
+p{
+    text-align: center;
+    width: 100%;
+}
+form{
+    margin: auto;
+    float: left;
+}
 .container-fluid{
     height: 1000px ;
 }
