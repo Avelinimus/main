@@ -18,33 +18,41 @@
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            {% block top_menu %}
+
             <div class="collapse navbar-collapse" id="navbarSupportedContent" align="center" style="margin: 7% 7% auto">
-                <div class="top-menu">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
-                             <a class="nav-link" href="#">Акции</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url "ru:payment" %}">Доставка и оплата</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url "ru:contact" %}">Контакты</a>
-                        </li>
-                    </ul>
-                </div>
+                {% block top_menu %}
+                    <div class="top-menu">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item active">
+                                 <a class="nav-link" href="#">Акции</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url "ru:payment" %}">Доставка и оплата</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url "ru:contact" %}">Контакты</a>
+                            </li>
+                        </ul>
+                    </div>
+                {% endblock %}
                 <div class="top-menu" style="margin: 0 0 0 auto;">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'account_login' %}"><img src="{% static 'ru/images/login.png' %}" style="margin-right: 5px;margin-bottom: 5px">Вход</a>
-                        </li>
+                        {% if not user.is_active %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'account_login' %}"><img src="{% static 'ru/images/login.png' %}" style="margin-right: 5px;margin-bottom: 5px">Вход</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'ru:my_room' %}"><img src="{% static 'ru/images/login.png' %}" style="margin-right: 5px;margin-bottom: 5px">Моя комната</a>
+                            </li>
+                        {% endif %}
                         <li class="nav-item">
                             <a class="nav-link" href="#"><img src="{% static 'ru/images/card.png' %}" style="margin-right: 5px; margin-bottom: 5px">Корзина</a>
                         </li>
                     </ul>
                 </div>
             </div>
-            {% endblock %}
+
 
         </nav>
     </div>

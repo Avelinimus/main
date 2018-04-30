@@ -8,30 +8,18 @@
 </head>
 <body>
     {% block top_menu %}
-        <div class="collapse navbar-collapse" id="navbarSupportedContent" align="center" style="margin: 7% 7% auto">
-                <div class="top-menu">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                             <a class="nav-link" href="#">Акции</a>
-                        </li>
-                        <li class="nav-item active">
-                            <a class="nav-link" href="{% url "ru:payment" %}">Доставка и оплата</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url "ru:contact" %}">Контакты</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="top-menu" style="margin: 0 0 0 auto;">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'account_login' %}"><img src="{% static 'ru/images/login.png' %}" style="margin-right: 5px;margin-bottom: 5px">Вход</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"><img src="{% static 'ru/images/card.png' %}" style="margin-right: 5px; margin-bottom: 5px">Корзина</a>
-                        </li>
-                    </ul>
-                </div>
+            <div class="top-menu">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Акции</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url "ru:payment" %}">Доставка и оплата</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url "ru:contact" %}">Контакты</a>
+                    </li>
+                </ul>
             </div>
     {% endblock %}
 </body>
