@@ -16,7 +16,9 @@
                 <div class="products">
                     <div class="col-4 block">
                         <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "ru/images/no_image.jpeg"%}{% endif %}" width="200" height="200" align="left" style="margin-right: 15px">
+                    <p>{{ product.name }}</p>
                     </div>
+
                 </div>
             {% endfor %}
         {% endfor %}

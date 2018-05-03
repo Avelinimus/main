@@ -22,6 +22,7 @@ class ProductsListView(ListView):
     context_object_name = "products_list"
     queryset = Products.objects.all()
     template_name = "ru/products_list.html"
+    paginate_by = 3
 
     def get_context_data(self, **kwargs):
         context = super(ProductsListView, self).get_context_data(**kwargs)
