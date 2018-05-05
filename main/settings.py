@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ru.apps.RuConfig',
+    'cart.apps.CartConfig',
     'bootstrap3',
     'ckeditor',
     'ckeditor_uploader',
@@ -145,3 +146,6 @@ LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = 'accounts/login'
 EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
 ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 60
+
+
+CART_SESSION_ID = 'cart'

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Shop UA</title>
+</head>
+
+<body>
+    {% block content %}
+        <div class="advertising"><img src="{% static 'ru/images/slide_shoot.png' %}" height="260px"></div>
+        <div class="products">
+            {% for category in category_list %}
+                {% if category.available %}
+                    {% if category.relCategory.count %}
+                        <div class="col-12 title" style="padding-top: 2%"><a href="{{ category.get_absolute_url }}" style="color: #7e3d4a;">{{ category.name }}</a></div>
+                    {% endif %}
+                {% endif %}
+                {% for product in products_list %}
+                    {% if category.available %}
+                        {% if product.available %}
+                            {% if product.category|lower == category.name|lower %}
+                                <div class="col-12 col-md-4 block" style="padding-top: 1%;padding-bottom: 1%">
+                                    <a href="{{ product.get_absolute_url }}"><img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "ru/images/no_image.png"%}{% endif %}" width="200" height="200" align="center" style="margin-right: 15px"></a>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </div>
+    {% endblock %}
+</body>
+</html>

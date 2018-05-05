@@ -6,6 +6,27 @@
     <title>Title</title>
 </head>
 <body>
-
+    {% block top_menu %}
+        <div class="top-menu">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url "ru:category_list" %}">Главная</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Акции</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url "ru:payment" %}">Доставка и оплата</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url "ru:contact" %}">Контакты</a>
+                </li>
+            </ul>
+        </div>
+    {% endblock %}
+    {% block content %}
+        <div class="col-12">
+        </div>
+    {% endblock %}
 </body>
 </html>

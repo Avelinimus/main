@@ -22,7 +22,8 @@ from django.views.generic import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('ru/', include(('ru.urls', 'ru'), namespace='ru'))
+    path('ru/', include(('ru.urls', 'ru'), namespace='ru')),
+    path('cart/', include(('cart.urls','cart'), namespace='cart')),
 ]
 
 urlpatterns += [
@@ -34,6 +35,7 @@ urlpatterns += [
     # Подключаем интерактивный редактор
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
     url(r'^accounts/', include('allauth.urls')),
+
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

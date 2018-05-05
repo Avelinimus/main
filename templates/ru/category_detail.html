@@ -2,10 +2,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+    {% block content %}
 
+        <div class="col-12 title"><a>{{ category.name }}</a></div>
+            <div class="products">
+            {% for product in products_list  %}
+                {% if category.name|lower == product.category|lower %}
+
+                        <div class="col-6 block" >
+                            <a href="{{ product.get_absolute_url }}"><img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "ru/images/no_image.png"%}{% endif %}" width="200" height="200" align="left"></a>
+                            <p>{{ product.name }}</p>
+                        </div>
+                {% endif %}
+            {% endfor %}
+            </div>
+
+    {% endblock %}
 </body>
 </html>

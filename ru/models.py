@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.urls import reverse
@@ -28,15 +29,19 @@ class Products(models.Model):
 
     class Meta:
         ordering = ['name']
+        index_together = [
+            ['id', 'slug']
+        ]
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
 
-    name = models.CharField(max_length=200, db_index=True, verbose_name="Заголовок новости")
+    name = models.CharField(max_length=50, db_index=True, verbose_name="Заголовок новости")
     slug = models.SlugField(max_length=200, db_index=True,
                             unique=True, help_text='Нужно использовать для создания "хороших" URL-ов')
-    category = models.ForeignKey(Category, db_index=True, on_delete=models.CASCADE, verbose_name="Категория продукта")
+    category = models.ForeignKey(Category, db_index=True, on_delete=models.CASCADE, related_name="relCategory", verbose_name="Категория продукта")
     image = models.ImageField(upload_to='products/img/%Y/%m/%d/', blank=True,
                               verbose_name="Картинка для новостей (300 x 300)")
+    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена(грн)")
     short_description = models.TextField(blank=True, verbose_name="Короткое описание в листе")
     description = RichTextUploadingField(blank=True, verbose_name="Детальное описание")
     created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
@@ -46,8 +51,5 @@ class Products(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('ru:product_detail', args={self.slug})
+        return reverse('ru:product_detail', args={self.id, self.slug})
 
-
-class User(models.Model):
-    pass

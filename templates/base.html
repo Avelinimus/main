@@ -24,6 +24,9 @@
                     <div class="top-menu">
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item active">
+                                 <a class="nav-link" href="{% url "ru:category_list" %}">Главная</a>
+                            </li>
+                            <li class="nav-item">
                                  <a class="nav-link" href="#">Акции</a>
                             </li>
                             <li class="nav-item">
@@ -47,7 +50,7 @@
                             </li>
                         {% endif %}
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><img src="{% static 'ru/images/card.png' %}" style="margin-right: 5px; margin-bottom: 5px">Корзина</a>
+                            <a class="nav-link" href="{% url "cart:CartDetail" %}"><img src="{% static 'ru/images/card.png' %}" style="margin-right: 5px; margin-bottom: 5px">Корзина</a>
                         </li>
                     </ul>
                 </div>
@@ -58,14 +61,18 @@
     </div>
 
     <div class="row block_02">
-        <div class="col-12"><a href="{% url "ru:products_list" %}"><img src="{% static 'ru/images/main_img.png' %}" align="center"></a>
+        <div class="col-12"><a href="{% url "ru:category_list" %}"><img src="{% static 'ru/images/main_img.png' %}" align="center"></a>
         </div>
         <div class="col-12 categories" style="padding-top: 15px">
             <ul>
                 {% for category in category_list %}
-                <li>
-                    <a href="{{ category.get_absolute_url }}">{{ category.name }}</a>
-                </li>
+                    {% if category.available %}
+                        {% if category.relCategory.count %}
+                            <li>
+                                <a href="{{ category.get_absolute_url }}">{{ category.name }}</a>
+                            </li>
+                        {% endif %}
+                    {% endif %}
                 {% endfor %}
             </ul>
         </div>
@@ -78,7 +85,18 @@
     </div>
 
 
-
+<div class="cart">
+    {% with total_items=cart|length %}
+        {% if cart|length > 0 %}
+            Ваша корзина:
+            <a href="{% url "cart:CartDetail" %}">
+                {{ total_items }} тов. {{ cart.get_total_price }} руб.
+            </a>
+         {% else %}
+              Корзина пустая
+        {% endif %}
+    {% endwith %}
+</div>
 
 
 <script src="{% static 'js/top_menu.js' %}"></script>

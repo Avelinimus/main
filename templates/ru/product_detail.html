@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    {% block content %}
+        <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "ru/images/no_image.png"%}{% endif %}" width="200" height="200" align="left" style="margin-right: 15px">
+        {{ product.name }}
+        {% autoescape off %}{{ product.description }}{% endautoescape %}
+        {{ product.created }}
+        <p class="price">{{ product.price }} руб.</p>
+            <form action="{% url "cart:CartAdd" product.id %}" method="post">
+                {{ cart_product_form }}
+                {% csrf_token %}
+                <input type="submit" value="Добавить в корзину">
+            </form>
+    {% endblock %}
+</body>
+</html>

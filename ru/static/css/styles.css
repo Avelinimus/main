@@ -6,12 +6,13 @@ p{
     text-align: center;
     width: 100%;
 }
+
 form{
     margin: auto;
     float: left;
 }
-.container-fluid{
-
+.container-fluid-reformat{
+    min-height: 1250px;
 }
 .block_01{
     background-color: #7e3d4a;
@@ -27,8 +28,7 @@ form{
     height: auto;
     width: auto\9; /* ie8 */
 }
-.block_03{
-}
+
 .custom-toggler .navbar-toggler-icon {
 	border: 1px dashed rgba(255,255,255, 0.1);
 	border-radius: 5px;
@@ -115,7 +115,8 @@ form{
     width: 100%;
 }
 .block{
-    float: left
+    float: left;
+    margin-top: 5%;
 }
 .advertising{
     padding: 30px;
