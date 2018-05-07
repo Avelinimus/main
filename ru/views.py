@@ -1,12 +1,20 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView
 from django.views.decorators.http import require_POST
-from .models import Products, Category, OrderItem
+from .models import Products, Category, OrderItem, Order
 from .cart import Cart
 from .forms import CartAddProductForm, OrderCreateForm
+from django.contrib.admin.views.decorators import staff_member_required
 
+"""
+from weasyprint import HTML, CSS
+from main import settings
+from django.template.loader import render_to_string
+from django.http import HttpResponse
+"""
 
 # Create your views here.
+
 
 def contact(request):
     category_list = Category.objects.all()
@@ -66,7 +74,6 @@ def cart_detail(request):
     return render(request, 'ru/cart_detail.html', {
         'category_list': category_list,
         'products_list': products_list,
-        'cart': cart
     })
 
 
@@ -88,7 +95,61 @@ def order_create(request):
                                                            'form': form})
 
 
-def product_detail(request, slug):
+@require_POST
+def shares(request):
+    request.session['shares_id'] = shares.id
+    return redirect('ru:cart_detail')
+
+
+# CSV order print
+@staff_member_required
+def admin_order_detail(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    return render(request, 'admin/ru/orders/detail.html', {'order': order})
+
+
+"""
+# PDF order print
+@staff_member_required
+def admin_order_PDF(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    html = render_to_string('ru/orders/pdf.html', {'order': order})
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'filename=order_{}.pdf'.format(order.id)
+    HTML(string=html).write_pdf(response,
+                                stylesheets=[CSS(settings.STATIC_ROOT + 'css/bootstrap.min.css')])
+    return response
+"""
+
+
+def category_list_view(request):
+    category_list = Category.objects.all()
+    products_list = Products.objects.all()
+    cart = Cart(request)
+    for item in cart:
+        item['update_quantity_form'] = CartAddProductForm(initial={
+            'quantity': item['quantity'],
+            'update': True
+        })
+    return render(request, 'ru/category_list.html', {
+        'category_list': category_list,
+        'products_list': products_list,
+        'cart': cart
+    })
+
+
+def category_detail_view(request, slug):
+    category_list = Category.objects.all()
+    products_list = Products.objects.all()
+    category = get_object_or_404(Category, slug=slug, available=True)
+    return render(request, 'ru/category_detail.html', {
+        'category_list': category_list,
+        'products_list': products_list,
+        'category': category,
+    })
+
+
+def product_detail_view(request, slug):
     category_list = Category.objects.all()
     products_list = Products.objects.all()
     cart_product_form = CartAddProductForm()
@@ -99,26 +160,3 @@ def product_detail(request, slug):
         'product': product,
         'cart_product_form': cart_product_form
     })
-
-
-class CategoryListView(ListView):
-    context_object_name = "category_list"
-    queryset = Category.objects.all()
-    template_name = "ru/category_list.html"
-    paginate_by = 3
-
-    def get_context_data(self, **kwargs):
-        context = super(CategoryListView, self).get_context_data(**kwargs)
-        context['products_list'] = Products.objects.all()
-        return context
-
-
-class CategoryDetailView(DetailView):
-    model = Category
-    template_name = "ru/category_detail.html"
-
-    def get_context_data(self, **kwargs):
-        context = super(CategoryDetailView, self).get_context_data(**kwargs)
-        context['category_list'] = Category.objects.all()
-        context['products_list'] = Products.objects.all()
-        return context

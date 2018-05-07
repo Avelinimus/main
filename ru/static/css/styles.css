@@ -1,10 +1,15 @@
+body{
+    margin: 0;
+    padding: 0;
+    background-color: #5B7BBB;
+	word-wrap: break-word;
+	white-space: normal;
+}
 h1{
-    width: 100%;
     text-align: center;
 }
 p{
     text-align: center;
-    width: 100%;
 }
 
 form{
@@ -12,7 +17,7 @@ form{
     float: left;
 }
 .container-fluid-reformat{
-    min-height: 1250px;
+    min-height: 1050px;
 }
 .block_01{
     background-color: #7e3d4a;
@@ -28,6 +33,7 @@ form{
     height: auto;
     width: auto\9; /* ie8 */
 }
+
 
 .custom-toggler .navbar-toggler-icon {
 	border: 1px dashed rgba(255,255,255, 0.1);
@@ -68,7 +74,7 @@ form{
     margin: 0 auto;
     text-align: center;
     font-size: 24px;
-    color: #7E3D4A;
+    color: #7e3d4a;
 }
 .title:before,
 .title:after {
@@ -118,7 +124,20 @@ form{
     float: left;
     margin-top: 5%;
 }
-.advertising{
-    padding: 30px;
-    margin: auto;
+.advertising {
+    display: block;
+    margin: 0 auto;
+    padding: 20px;
+    max-width: 100%;
+    height: auto;
+    width: auto \9;
+}
+.text p{
+    text-align: left;
+}
+.input{
+
+}
+#id_quantity{
+    width: 40px;
 }

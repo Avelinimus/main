@@ -7,6 +7,7 @@ class Cart(object):
     def __init__(self, request):
         # Инициализация корзины пользователя
         self.session = request.session
+        self.shares_id = self.session.get('shares_id')
         cart = self.session.get(settings.CART_SESSION_ID)
         if not cart:
             # Сохраняем корзину пользователя в сессию
@@ -52,10 +53,23 @@ class Cart(object):
         del self.session[settings.CART_SESSION_ID]
         self.session.modified = True
 
+    @property
+    def shares(self):
+        if self.shares_id:
+            return Products.objects.get(id=self.shares_id)
+        return None
+
+    def get_discount(self):
+        if self.shares:
+            return (self.shares.discount / Decimal('100')) * self.get_total_price()
+        return Decimal('0')
+
+    def get_total_price_after_discount(self):
+        return self.get_total_price() - self.get_discount()
+
     # Сохранение данных в сессию
     def save(self):
         self.session[settings.CART_SESSION_ID] = self.cart
         # Указываем, что сессия изменена
         self.session.modified = True
-
 

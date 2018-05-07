@@ -4,22 +4,24 @@
 <head>
     {% load static %}
     <meta charset="UTF-8">
-    <title>Title</title>
+    {% block title %}<title>Услуга-{{ product.name }}</title>{% endblock %}
 </head>
 <body>
     {% block content %}
-        <div class="col-12">
-        <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "ru/images/no_image.png"%}{% endif %}" width="200" height="200" align="left" style="margin-right: 15px">
-        {{ product.name }}
-        {% autoescape off %}{{ product.description }}{% endautoescape %}
-        {{ product.created }}
-        <p class="price">{{ product.price }} руб.</p>
-            <form action="{% url "ru:cart_add" product.id %}" method="post">
-                {{ cart_product_form }}
-                {% csrf_token %}
-                <input type="submit" value="Добавить в корзину">
-            </form>
+        <div class="col-12"  style="margin-top: 40px">
+            <h2 align="center">{{ product.name }}</h2>
+            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "ru/images/no_image.png"%}{% endif %}" width="300" height="300" align="left"style="margin-right: 30px">
+            <div class="text">{% autoescape off %}{{ product.description }}{% endautoescape %}</div>
+            Как давно создана эта услуга: <h6 style="color: #7E3D4A">{{ product.created }}</h6>
+            <h5 style="text-align: right">Цена: {{ product.price }} грн.</h5>
+                <form action="{% url "ru:cart_add" product.id %}" method="post" style="margin: auto">
+                    {{ cart_product_form.as_p }}
+                    {% csrf_token %}
+                    <input type="submit" value="Добавить в корзину">
+                </form>
+            </div>
         </div>
+
     {% endblock %}
 </body>
 </html>

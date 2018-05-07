@@ -4,16 +4,18 @@
 <head>
     {% load static %}
     <meta charset="UTF-8">
-    <title>Shop UA</title>
+    {% block title %}<title>Shop_Ua</title>{% endblock %}
 </head>
 
 <body>
     {% block content %}
+        <div class="col-12 advertising" align="center"><img class="advertising" src="{% static 'ru/images/slide_shoot.png' %}" width="600" height="400" align="center">
+        </div>
 
         <div class="products">
             {% for category in category_list %}
                 {% if category.available %}
-                    {% if category.relCategory.count %}
+                    {% if category.rel_category.count %}
                         <div class="col-12 title" style="padding-top: 2%"><a href="{{ category.get_absolute_url }}" style="color: #7e3d4a;">{{ category.name }}</a></div>
                     {% endif %}
                 {% endif %}
