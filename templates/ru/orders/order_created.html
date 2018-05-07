@@ -1,0 +1,20 @@
+{% extends "ru/base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+{% block title %}
+  Спасибо за заказ
+{% endblock %}
+
+{% block content %}
+  <h1>Спасибо за заказ</h1>
+  <p>Идентификатор вашего заказа: {{ order.id }}</p>
+{% endblock %}
+
+</body>
+</html>

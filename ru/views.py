@@ -1,8 +1,9 @@
-from django.shortcuts import render, get_object_or_404, render_to_response
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView
-
-from cart.forms import CartAddProductForm
-from .models import Products, Category
+from django.views.decorators.http import require_POST
+from .models import Products, Category, OrderItem
+from .cart import Cart
+from .forms import CartAddProductForm, OrderCreateForm
 
 
 # Create your views here.
@@ -34,14 +35,67 @@ def my_room(request):
     })
 
 
-def product_detail(request, id, slug):
+@require_POST
+def cart_add(request, product_id):
+    cart = Cart(request)
+    product = get_object_or_404(Products, id=product_id)
+    form = CartAddProductForm(request.POST)
+    if form.is_valid():
+        cd = form.cleaned_data
+        cart.add(product=product, quantity=cd['quantity'],
+                 update_quantity=cd['update'])
+    return redirect('ru:cart_detail')
+
+
+def cart_remove(request, product_id):
+    cart = Cart(request)
+    product = get_object_or_404(Products, id=product_id)
+    cart.remove(product)
+    return redirect('ru:cart_detail')
+
+
+def cart_detail(request):
     category_list = Category.objects.all()
     products_list = Products.objects.all()
-    product = get_object_or_404(Products, id=id, slug=slug, available=True)
-    cart_product_form = CartAddProductForm()
-    return render(request, 'ru/product_detail.html', {
-        'products_list': products_list,
+    cart = Cart(request)
+    for item in cart:
+        item['update_quantity_form'] = CartAddProductForm(initial={
+            'quantity': item['quantity'],
+            'update': True
+        })
+    return render(request, 'ru/cart_detail.html', {
         'category_list': category_list,
+        'products_list': products_list,
+        'cart': cart
+    })
+
+
+def order_create(request):
+    cart = Cart(request)
+    if request.method == 'POST':
+        form = OrderCreateForm(request.POST)
+        if form.is_valid():
+            order = form.save()
+            for item in cart:
+                OrderItem.objects.create(order=order, product=item['product'],
+                                         price=item['price'],
+                                         quantity=item['quantity'])
+            cart.clear()
+            return render(request, 'ru/orders/order_created.html', {'order': order})
+
+    form = OrderCreateForm()
+    return render(request, 'ru/orders/order_create.html', {'cart': cart,
+                                                           'form': form})
+
+
+def product_detail(request, slug):
+    category_list = Category.objects.all()
+    products_list = Products.objects.all()
+    cart_product_form = CartAddProductForm()
+    product = get_object_or_404(Products, slug=slug, available=True)
+    return render(request, 'ru/product_detail.html', {
+        'category_list': category_list,
+        'products_list': products_list,
         'product': product,
         'cart_product_form': cart_product_form
     })

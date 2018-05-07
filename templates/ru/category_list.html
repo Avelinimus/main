@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'ru/base.html' %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +9,7 @@
 
 <body>
     {% block content %}
-        <div class="advertising"><img src="{% static 'ru/images/slide_shoot.png' %}" height="260px"></div>
+
         <div class="products">
             {% for category in category_list %}
                 {% if category.available %}
