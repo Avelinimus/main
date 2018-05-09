@@ -13,12 +13,18 @@
             <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "ru/images/no_image.png"%}{% endif %}" width="300" height="300" align="left"style="margin-right: 30px">
             <div class="text">{% autoescape off %}{{ product.description }}{% endautoescape %}</div>
             Как давно создана эта услуга: <h6 style="color: #7E3D4A">{{ product.created }}</h6>
-            <h5 style="text-align: right">Цена: {{ product.price }} грн.</h5>
-                <form action="{% url "ru:cart_add" product.id %}" method="post" style="margin: auto">
-                    {{ cart_product_form.as_p }}
-                    {% csrf_token %}
-                    <input type="submit" value="Добавить в корзину">
-                </form>
+            {% if product.discount > 0  %}
+                <h5 style="text-align: right">Старая цена: {{ product.price }} грн.</h5>
+                <h5 style="text-align: right">Цена по акции: {{ product.get_discount }} грн.</h5>
+                <h5 style="text-align: right">Акция на продукт в: {{ product.discount }}%</h5>
+            {% else %}
+                <h5 style="text-align: right">Цена: {{ product.price }} грн.</h5>
+            {% endif %}
+            <form action="{% url "ru:cart_add" product.id %}" method="post" style="margin: auto">
+                {{ cart_product_form.as_p }}
+                {% csrf_token %}
+                <input type="submit" value="Добавить в корзину">
+            </form>
             </div>
         </div>
 

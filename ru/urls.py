@@ -12,7 +12,7 @@ urlpatterns += [
     path('', views.category_list_view, name='category_list'),
     url(r'^category/(?P<slug>[\w-]+)/$', views.category_detail_view, name='category_detail'),
     url(r'^product/(?P<slug>[\w-]+)/$', views.product_detail_view, name='product_detail'),
-    url(r'^shares', views.shares, name='shares')
+    url(r'^shares', views.shares_list_view, name='shares_list')
 ]
 
 urlpatterns += [

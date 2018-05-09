@@ -48,7 +48,6 @@ class Products(models.Model):
     description = RichTextUploadingField(blank=True, verbose_name="Детальное описание")
     created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
     available = models.BooleanField(default=True, verbose_name="Отображать")
-    available_shares = models.BooleanField(default=False, verbose_name="Скидка")
     discount = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], default=0, verbose_name='В процентах')
 
     def __str__(self):
@@ -56,6 +55,10 @@ class Products(models.Model):
 
     def get_absolute_url(self):
         return reverse('ru:product_detail', args={self.slug})
+
+    def get_discount(self):
+        price = Decimal(self.price-(self.price*self.discount/100))
+        return price
 
 
 class Order(models.Model):

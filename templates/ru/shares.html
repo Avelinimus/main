@@ -2,10 +2,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+    {% block top_menu %}
+        <div class="top-menu">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url "ru:category_list" %}">Главная</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url "ru:shares_list" %}">Акции</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url "ru:payment" %}">Доставка и оплата</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url "ru:contact" %}">Контакты</a>
+                </li>
+            </ul>
+        </div>
+    {% endblock %}
 
+    {% block content %}
+            <div class="products">
+                <h1 align="center">Акционые товары</h1>
+                {% for product in products_list %}
+                    {% if product.discount > 0 %}
+                        <div class="col-12 col-md-6 block">
+                            <h2 align="center">{{ product.name }}</h2>
+                            <a href="{{ product.get_absolute_url }}"><img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "ru/images/no_image.png"%}{% endif %}" width="200" height="200" align="left" style="margin-right: 10px"></a>
+                            <p style="text-align: left;">{{ product.short_description }}</p>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+    {% endblock %}
 </body>
 </html>

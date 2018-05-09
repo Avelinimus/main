@@ -7,7 +7,7 @@ class Cart(object):
     def __init__(self, request):
         # Инициализация корзины пользователя
         self.session = request.session
-        self.shares_id = self.session.get('shares_id')
+        self.cupon_id = self.session.get('shares_id')
         cart = self.session.get(settings.CART_SESSION_ID)
         if not cart:
             # Сохраняем корзину пользователя в сессию
@@ -21,8 +21,10 @@ class Cart(object):
         for product in products:
             self.cart[str(product.id)]['product'] = product
         for item in self.cart.values():
+            item['discount'] = Decimal(item['discount'])
             item['price'] = Decimal(item['price'])
             item['total_price'] = item['price'] * item['quantity']
+            item['discount_price'] = item['price']+(-item['price'] * item['discount']/100)
             yield item
 
     # Количество товаров
@@ -33,7 +35,8 @@ class Cart(object):
         product_id = str(product.id)
         if product_id not in self.cart:
             self.cart[product_id] = {'quantity': 0,
-                                     'price': str(product.price)}
+                                     'price': str(product.price),
+                                     'discount': str(product.discount)}
         if update_quantity:
             self.cart[product_id]['quantity'] = quantity
         else:
@@ -49,23 +52,15 @@ class Cart(object):
     def get_total_price(self):
         return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
 
+    def get_total_discount(self):
+        return sum(Decimal(item['price']) * item['quantity'] * Decimal(item['discount'])/100 for item in self.cart.values())
+
+    def get_total_price_with_discount(self):
+        return self.get_total_price() - self.get_total_discount()
+
     def clear(self):
         del self.session[settings.CART_SESSION_ID]
         self.session.modified = True
-
-    @property
-    def shares(self):
-        if self.shares_id:
-            return Products.objects.get(id=self.shares_id)
-        return None
-
-    def get_discount(self):
-        if self.shares:
-            return (self.shares.discount / Decimal('100')) * self.get_total_price()
-        return Decimal('0')
-
-    def get_total_price_after_discount(self):
-        return self.get_total_price() - self.get_discount()
 
     # Сохранение данных в сессию
     def save(self):

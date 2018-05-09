@@ -27,7 +27,7 @@
                                  <a class="nav-link" href="{% url 'ru:category_list' %}">Главная</a>
                             </li>
                             <li class="nav-item">
-                                 <a class="nav-link" href="#">Акции</a>
+                                 <a class="nav-link" href="{% url 'ru:shares_list' %}">Акции</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url "ru:payment" %}">Доставка и оплата</a>
@@ -53,7 +53,7 @@
                             <a class="nav-link" href="{% url 'ru:cart_detail' %}"><img src="{% static 'ru/images/card.png' %}" style="margin-right: 5px; margin-bottom: 5px">Корзина
                             {% with total_items=cart|length %}
                                 {% if cart|length > 0 %}
-                                    на {{ cart.get_total_price }} грн.
+                                    на {{ cart.get_total_price_with_discount }} грн.
                                 {% else %}
                                     пустая
                                 {% endif %}
@@ -63,8 +63,6 @@
                     </ul>
                 </div>
             </div>
-
-
         </nav>
     </div>
 

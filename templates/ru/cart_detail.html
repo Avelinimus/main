@@ -4,11 +4,12 @@
 <head>
     {% load static %}
     <meta charset="UTF-8">
-    {% block title %}<title>{% for item in cart %}Цена товаров: {{ cart.get_total_price }} грн.</title>{% endfor %}{% endblock %}
+    {% block title %}<title>Общая цена: {{ cart.get_total_price }} грн.</title>{% endblock %}
 </head>
 <body>
 {% block content %}
         <div class="col-12">
+
         <h1>Ваша корзина товаров</h1>
         {% for item in cart %}
             {% with product=item.product %}
@@ -23,19 +24,21 @@
                         {% csrf_token %}
                         <input type="submit" value="Обновить">
                     </form>
-                    <p>Цена за товар/услугу: {{ item.price }} грн.</p>
+                    <p>Цена за товар/услугу: {{ item.discount_price }} грн.</p>
                     <p>Цена за товары/услуги: {{ item.total_price }} грн.</p>
                     <a href="{% url "ru:cart_remove" product.id%}">Удалить</a>
                 </div>
+                {{ cart.get_total_price_with_discount}}
             {% endwith %}
         {% endfor %}
+
         </div>
         <div class="col-12">
             <p>Общая цена : {{ cart.get_total_price }} грн.</p>
             <p style="text-align: right"><a href="{% url "ru:category_list"%}">Продолжить Шопинг</a></p>
             <p style="text-align: right"><a href="{% url "ru:order_create"%}">Оформить заказ</a></p>
         </div>
-              <td>{{ cart.get_total_price_after_discount }}</td>
+
 
 {% endblock %}
 </body>

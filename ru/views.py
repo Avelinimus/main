@@ -13,6 +13,7 @@ from django.template.loader import render_to_string
 from django.http import HttpResponse
 """
 
+
 # Create your views here.
 
 
@@ -74,6 +75,7 @@ def cart_detail(request):
     return render(request, 'ru/cart_detail.html', {
         'category_list': category_list,
         'products_list': products_list,
+        'cart': cart
     })
 
 
@@ -84,21 +86,37 @@ def order_create(request):
         if form.is_valid():
             order = form.save()
             for item in cart:
-                OrderItem.objects.create(order=order, product=item['product'],
-                                         price=item['price'],
-                                         quantity=item['quantity'])
+                if item['discount']:
+                    item['price'] = item['discount_price']
+                    OrderItem.objects.create(order=order, product=item['product'],
+                                             price=item['price'],
+                                             quantity=item['quantity'])
+                else:
+                    OrderItem.objects.create(order=order, product=item['product'],
+                                             price=item['price'],
+                                             quantity=item['quantity'])
+
             cart.clear()
             return render(request, 'ru/orders/order_created.html', {'order': order})
-
     form = OrderCreateForm()
     return render(request, 'ru/orders/order_create.html', {'cart': cart,
                                                            'form': form})
 
 
-@require_POST
-def shares(request):
-    request.session['shares_id'] = shares.id
-    return redirect('ru:cart_detail')
+def shares_list_view(request):
+    category_list = Category.objects.all()
+    products_list = Products.objects.all()
+    cart = Cart(request)
+    for item in cart:
+        item['update_quantity_form'] = CartAddProductForm(initial={
+            'quantity': item['quantity'],
+            'update': True
+        })
+    return render(request, 'ru/shares.html', {
+        'category_list': category_list,
+        'products_list': products_list,
+        'cart': cart,
+    })
 
 
 # CSV order print
