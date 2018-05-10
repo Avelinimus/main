@@ -49,7 +49,7 @@
     </tr>
     <tr>
       <th>Полная стоймость</th>
-      <td>{{ order.get_total_cost }} руб.</td>
+      <td>{{ order.get_total_cost }} грн.</td>
     </tr>
     <tr>
       <th>Статус</th>
@@ -73,14 +73,14 @@
           {% for item in order.items.all  %}
             <tr class="row{% cycle "1" "2" %}">
               <td>{{ item.product.name }}</td>
-              <td>{{ item.price }} руб.</td>
+              <td>{{ item.price }} грн.</td>
               <td>{{ item.quantity }}</td>
-              <td>{{ item.get_cost }} руб.</td>
+              <td>{{ item.get_cost }} грн.</td>
             </tr>
           {% endfor %}
           <tr class="total">
             <td colspan="3">Всего</td>
-            <td class="num">{{ order.get_total_cost }} руб.</td>
+            <td class="num">{{ order.get_total_cost }} грн.</td>
           </tr>
         </tbody>
       </table>

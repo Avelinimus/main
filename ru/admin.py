@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import reverse
 from django.utils.html import format_html
-from ru.models import Products, Category
+from ru.models import Products, Category, Profile
 from ru.models import Order, OrderItem
 
 from django.http import HttpResponse
@@ -66,6 +66,11 @@ class ProductsAdmin(admin.ModelAdmin):
     list_editable = ['available', 'category']
     search_fields = ['name', 'category']
     prepopulated_fields = {'slug': ('name',)}
+
+
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ['address', 'postal_code', 'city', 'number_phone']
 
 
 class OrderItemInline(admin.TabularInline):

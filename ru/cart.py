@@ -25,6 +25,7 @@ class Cart(object):
             item['price'] = Decimal(item['price'])
             item['total_price'] = item['price'] * item['quantity']
             item['discount_price'] = item['price']+(-item['price'] * item['discount']/100)
+            item['total_discount_price'] = item['discount_price'] * item['quantity']
             yield item
 
     # Количество товаров

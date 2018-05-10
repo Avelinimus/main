@@ -26,7 +26,14 @@
     {% endblock %}
     {% block content %}
         <div class="col-12">
+            <form method="post">
+                {% csrf_token %}
+                {{ user_form.as_p }}
+                {{ profile_form.as_p }}
+                <button type="submit">Сохранить изменения</button>
+            </form>
         </div>
+        <a href="{% url 'account_logout' %}">Выйти из аккаунта</a>
     {% endblock %}
 </body>
 </html>

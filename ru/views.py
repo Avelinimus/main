@@ -1,9 +1,13 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.core.checks import messages
+from django.db import transaction
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView
 from django.views.decorators.http import require_POST
-from .models import Products, Category, OrderItem, Order
+from .models import Products, Category, OrderItem, Order, Profile
 from .cart import Cart
-from .forms import CartAddProductForm, OrderCreateForm
+from .forms import CartAddProductForm, OrderCreateForm, UserForm, ProfileForm
 from django.contrib.admin.views.decorators import staff_member_required
 
 """
@@ -35,12 +39,26 @@ def payment(request):
     })
 
 
+@login_required
+@transaction.atomic
 def my_room(request):
     category_list = Category.objects.all()
     products_list = Products.objects.all()
+    if request.method == 'POST':
+        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(request.POST, instance=request.user.profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            return redirect('ru:my_room')
+    else:
+        user_form = UserForm(instance=request.user)
+        profile_form = ProfileForm(instance=request.user.profile)
     return render(request, 'ru/my_room.html', {
         'category_list': category_list,
         'products_list': products_list,
+        'user_form': user_form,
+        'profile_form': profile_form
     })
 
 
@@ -81,8 +99,16 @@ def cart_detail(request):
 
 def order_create(request):
     cart = Cart(request)
+    user = User(request)
     if request.method == 'POST':
-        form = OrderCreateForm(request.POST)
+        form = OrderCreateForm(request.POST, initial={
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'email': user.email,
+            'address': user.profile.address,
+            'postal_code': user.profile.postal_code,
+            'city': user.profile.city
+        })
         if form.is_valid():
             order = form.save()
             for item in cart:
@@ -93,9 +119,9 @@ def order_create(request):
                                              quantity=item['quantity'])
                 else:
                     OrderItem.objects.create(order=order, product=item['product'],
+                                             discount=item['discount'],
                                              price=item['price'],
                                              quantity=item['quantity'])
-
             cart.clear()
             return render(request, 'ru/orders/order_created.html', {'order': order})
     form = OrderCreateForm()
@@ -122,8 +148,17 @@ def shares_list_view(request):
 # CSV order print
 @staff_member_required
 def admin_order_detail(request, order_id):
+    cart = Cart(request)
+    for item in cart:
+        item['update_quantity_form'] = CartAddProductForm(initial={
+            'quantity': item['quantity'],
+            'update': True
+        })
     order = get_object_or_404(Order, id=order_id)
-    return render(request, 'admin/ru/orders/detail.html', {'order': order})
+    return render(request, 'admin/ru/orders/detail.html', {
+        'cart': cart,
+        'order': order
+    })
 
 
 """

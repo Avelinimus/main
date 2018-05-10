@@ -24,17 +24,19 @@
                         {% csrf_token %}
                         <input type="submit" value="Обновить">
                     </form>
-                    <p>Цена за товар/услугу: {{ item.discount_price }} грн.</p>
-                    <p>Цена за товары/услуги: {{ item.total_price }} грн.</p>
+                    <p>Цена за товар/услугу с акцией: {{ item.discount_price }} грн.</p>
+                    <p>Цена за товар/услугу без акции: {{ item.price }} грн.</p>
+                    <p>Цена за товары/услуги с акцией: {{ item.total_discount_price }} грн.</p>
+                    <p>Цена за товары/услуги без акции: {{ item.total_price }} грн.</p>
                     <a href="{% url "ru:cart_remove" product.id%}">Удалить</a>
                 </div>
-                {{ cart.get_total_price_with_discount}}
             {% endwith %}
         {% endfor %}
 
         </div>
         <div class="col-12">
-            <p>Общая цена : {{ cart.get_total_price }} грн.</p>
+            <p>Общая цена c акцией : {{ cart.get_total_price_with_discount}} грн.</p>
+            <p>Общая цена без акцией : {{ cart.get_total_price }} грн.</p>
             <p style="text-align: right"><a href="{% url "ru:category_list"%}">Продолжить Шопинг</a></p>
             <p style="text-align: right"><a href="{% url "ru:order_create"%}">Оформить заказ</a></p>
         </div>
