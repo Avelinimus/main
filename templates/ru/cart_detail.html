@@ -38,7 +38,9 @@
             <p>Общая цена c акцией : {{ cart.get_total_price_with_discount}} грн.</p>
             <p>Общая цена без акцией : {{ cart.get_total_price }} грн.</p>
             <p style="text-align: right"><a href="{% url "ru:category_list"%}">Продолжить Шопинг</a></p>
-            <p style="text-align: right"><a href="{% url "ru:order_create"%}">Оформить заказ</a></p>
+            {% if not cart.get_total_price_with_discount == 0 or not cart.get_total_price == 0 %}
+                <p style="text-align: right"><a href="{% url "ru:order_create"%}">Оформить заказ</a></p>
+            {% endif %}
         </div>
 
 

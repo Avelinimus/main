@@ -2,16 +2,17 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.checks import messages
 from django.db import transaction
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView
 from django.views.decorators.http import require_POST
-from .models import Products, Category, OrderItem, Order, Profile
+from .models import Products, Category, OrderItem, Order, Profile, Comments
 from .cart import Cart
-from .forms import CartAddProductForm, OrderCreateForm, UserForm, ProfileForm
+from .forms import CartAddProductForm, OrderCreateForm, UserForm, ProfileForm, CommentCreateForm
 from django.contrib.admin.views.decorators import staff_member_required
 
 """
-from weasyprint import HTML, CSS
+from weasyprint import HTML, CSS        
 from main import settings
 from django.template.loader import render_to_string
 from django.http import HttpResponse
@@ -62,6 +63,16 @@ def my_room(request):
     })
 
 
+def comment_add(request, product_id):
+    if request.method == "POST":
+        form = CommentCreateForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.comments_product = Products.objects.get(id=product_id)
+            form.save()
+            return redirect('ru:category_list')
+
+
 @require_POST
 def cart_add(request, product_id):
     cart = Cart(request)
@@ -100,15 +111,9 @@ def cart_detail(request):
 def order_create(request):
     cart = Cart(request)
     user = User(request)
+    current_user = request.user
     if request.method == 'POST':
-        form = OrderCreateForm(request.POST, initial={
-            'first_name': user.first_name,
-            'last_name': user.last_name,
-            'email': user.email,
-            'address': user.profile.address,
-            'postal_code': user.profile.postal_code,
-            'city': user.profile.city
-        })
+        form = OrderCreateForm(request.POST)
         if form.is_valid():
             order = form.save()
             for item in cart:
@@ -124,9 +129,20 @@ def order_create(request):
                                              quantity=item['quantity'])
             cart.clear()
             return render(request, 'ru/orders/order_created.html', {'order': order})
-    form = OrderCreateForm()
-    return render(request, 'ru/orders/order_create.html', {'cart': cart,
-                                                           'form': form})
+    try:
+        form = OrderCreateForm(initial={
+            'first_name': current_user.first_name,
+            'last_name': current_user.last_name,
+            'email': current_user.email,
+            'address': current_user.profile.address,
+            'postal_code': current_user.profile.postal_code,
+            'city': current_user.profile.city
+        })
+        return render(request, 'ru/orders/order_create.html', {'cart': cart, 'form': form})
+    except:
+        form = OrderCreateForm()
+        return render(request, 'ru/orders/order_create.html', {'cart': cart,
+                                                               'form': form})
 
 
 def shares_list_view(request):
@@ -205,11 +221,15 @@ def category_detail_view(request, slug):
 def product_detail_view(request, slug):
     category_list = Category.objects.all()
     products_list = Products.objects.all()
+    comments_list = Comments.objects.all()
     cart_product_form = CartAddProductForm()
     product = get_object_or_404(Products, slug=slug, available=True)
+    comment_product_form = CommentCreateForm()
     return render(request, 'ru/product_detail.html', {
         'category_list': category_list,
         'products_list': products_list,
         'product': product,
-        'cart_product_form': cart_product_form
+        'comments_list': comments_list,
+        'cart_product_form': cart_product_form,
+        'comment_product_form': comment_product_form
     })

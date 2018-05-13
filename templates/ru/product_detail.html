@@ -25,8 +25,25 @@
                 {% csrf_token %}
                 <input type="submit" value="Добавить в корзину">
             </form>
-            </div>
+
+        <form action="{% url "ru:comment_add" product.id %}" method="post">
+            {% csrf_token %}
+            {{ comment_product_form.as_p }}
+            <input type="submit" value="Send comment" />
+        </form>
+
         </div>
+        <div><h4>Comments:</h4>
+            {% for comment in comments_list %}
+                {% if product.name|lower == comment.comments_product|lower %}
+                    {% if comment.verified %}
+                        {{ comment.author }}
+                        {{ comment.comments_text }} # отображаем текст комментария
+                        {{ comment.created }}
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            </div>
 
     {% endblock %}
 </body>

@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.utils.html import format_html
 from ru.models import Products, Category, Profile
 from ru.models import Order, OrderItem
-
+from ru.models import Comments
 from django.http import HttpResponse
 import csv
 import datetime
@@ -51,6 +51,11 @@ export_to_CSV.short_description = 'Export CSV'
 # order_PDF.short_description = 'В PDF'
 
 
+class ProductsInline(admin.StackedInline):
+    model = Comments
+    extra = 2
+
+
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ['name', 'slug', 'available']
@@ -66,6 +71,7 @@ class ProductsAdmin(admin.ModelAdmin):
     list_editable = ['available', 'category']
     search_fields = ['name', 'category']
     prepopulated_fields = {'slug': ('name',)}
+    inlines = [ProductsInline]
 
 
 @admin.register(Profile)
@@ -83,7 +89,7 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = ['id', 'first_name', 'last_name', 'email', 'address',
                     'postal_code', 'city', 'paid', 'created', 'updated', order_detail]
     list_filter = ['paid', 'created', 'updated']
-    search_fields = ['first_name', 'last_name', 'email', 'address', 'city']
+    search_fields = ['id', 'first_name', 'last_name', 'email', 'address', 'city']
     inlines = [OrderItemInline]
     actions = [export_to_CSV]
 

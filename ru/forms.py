@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
-from .models import Order, Profile
+from .models import Order, Profile, Comments
 
 
 class CartAddProductForm(forms.Form):
@@ -27,3 +27,9 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('address', 'city', 'postal_code', 'number_phone', 'birth_date')
+
+
+class CommentCreateForm(forms.ModelForm):
+    class Meta:
+        model = Comments
+        fields = ['title', 'comments_text', 'author']

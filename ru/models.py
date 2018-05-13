@@ -89,6 +89,12 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = 'Заказаный предмет'
+        verbose_name_plural = 'Заказанные предметы'
+
     order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
     product = models.ForeignKey(Products, related_name='order_items', on_delete=models.CASCADE)
     price = models.DecimalField(verbose_name='Цена', max_digits=10, decimal_places=2)
@@ -103,6 +109,21 @@ class OrderItem(models.Model):
         return self.price * self.quantity
 
 
+class Comments(models.Model):
+
+    class Meta:
+        ordering = ['title']
+        verbose_name = 'Коментарий'
+        verbose_name_plural = 'Коментарии'
+
+    title = models.CharField(max_length=120, verbose_name='Оглавление')
+    comments_product = models.ForeignKey(Products, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор')
+    comments_text = models.TextField(verbose_name='Коментарий')
+    created = models.DateTimeField(verbose_name='Создан', auto_now_add=True)
+    verified = models.BooleanField(default=False, verbose_name='Проверено')
+
+
 class Profile(models.Model):
 
     class Meta:
@@ -111,20 +132,25 @@ class Profile(models.Model):
         verbose_name_plural = 'Профили'
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    city = models.CharField(verbose_name='Город', max_length=100)
-    address = models.CharField(verbose_name='Адрес', max_length=250)
-    postal_code = models.CharField(verbose_name='Почтовый код', max_length=20)
-    number_phone = models.CharField(verbose_name='Моб. телефон', max_length=13, default='+380')
+    city = models.CharField(verbose_name='Город', max_length=100, blank=True)
+    address = models.CharField(verbose_name='Адрес', max_length=250, blank=True)
+    postal_code = models.CharField(verbose_name='Почтовый код', max_length=20, blank=True)
+    number_phone = models.CharField(verbose_name='Моб. телефон', max_length=13, default='+380', blank=True)
     birth_date = models.DateField(null=True, blank=True)
 
     def __str__(self):
         return 'Профиль: {}'.format(self.user)
+
+    @property
+    def get_id_profile(self):
+        return User.objects.get(pk=self.user_id)
 
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
+
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):

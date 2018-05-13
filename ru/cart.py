@@ -7,7 +7,6 @@ class Cart(object):
     def __init__(self, request):
         # Инициализация корзины пользователя
         self.session = request.session
-        self.cupon_id = self.session.get('shares_id')
         cart = self.session.get(settings.CART_SESSION_ID)
         if not cart:
             # Сохраняем корзину пользователя в сессию

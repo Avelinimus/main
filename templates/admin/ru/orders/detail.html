@@ -73,6 +73,7 @@
           {% for item in order.items.all  %}
             <tr class="row{% cycle "1" "2" %}">
               <td>{{ item.product.name }}</td>
+              <td>{{ item.discount }}</td>
               <td>{{ item.price }} грн.</td>
               <td>{{ item.quantity }}</td>
               <td>{{ item.get_cost }} грн.</td>
