@@ -40,6 +40,7 @@ def payment(request):
     })
 
 
+#dasdsa
 @login_required
 @transaction.atomic
 def my_room(request):
