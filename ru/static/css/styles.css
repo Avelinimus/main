@@ -102,7 +102,7 @@ form{
   /* добавляем к линии левый и правый бордюр цветом основного фона заголовка
   ** благодаря этому создается нужный отступ между линиями и текстом
   */
-  border: solid #e2c9c3;
+  border: solid #e1bfbc;
   border-width: 0 10px;
 }
 .title:before {
@@ -125,7 +125,6 @@ form{
 .block{
     float: left;
     margin-top: 5%;
-    left: 6%;
 }
 .advertising {
     display: block;

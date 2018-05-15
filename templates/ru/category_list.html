@@ -23,8 +23,10 @@
                     {% if category.available %}
                         {% if product.available %}
                             {% if product.category|lower == category.name|lower %}
-                                <div class="col-12 col-md-4 block" style="padding-bottom: 3%">
-                                    <a href="{{ product.get_absolute_url }}"><img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "ru/images/no_image.png"%}{% endif %}" width="300" height="300" align="center"></a>
+                                <div class="col-12 col-lg-4 block" style="padding-bottom: 3%;">
+                                    <a href="{{ product.get_absolute_url }}"><img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "ru/images/no_image.png"%}{% endif %}" width="230" height="230" align="center">
+                                     {% if product.discount > 0 %}<img src="{% static "ru/images/ico_shares.png"%}" style="position: absolute;bottom: 25px;left: 190px">{% endif %}
+                                    </a>
                                 </div>
                             {% endif %}
                         {% endif %}

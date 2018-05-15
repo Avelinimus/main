@@ -31,9 +31,9 @@
                 <h1 align="center" style="color: #7E3D4A ">Акционые товары</h1>
                 {% for product in products_list %}
                     {% if product.discount > 0 %}
-                        <div class="col-12 col-md-6 block">
-                            <h2 align="center">{{ product.name }}</h2>
-                            <a href="{{ product.get_absolute_url }}"><img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "ru/images/no_image.png"%}{% endif %}" width="200" height="200" align="left" style="margin-right: 10px"></a>
+                        <div class="col-12 col-md-6 block" style="padding-bottom: 3%; padding-left: 9%">
+                            <h2 align="center" style="color: #7E3D4A">{{ product.name }}</h2>
+                            <a href="{{ product.get_absolute_url }}"><img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "ru/images/no_image.png"%}{% endif %}" width="230" height="230" align="left" style="margin-right: 10px"></a>
                             <p style="text-align: left;">{{ product.short_description }}</p>
                         </div>
                     {% endif %}
