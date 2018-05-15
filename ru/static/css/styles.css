@@ -1,9 +1,9 @@
 body{
     margin: 0;
     padding: 0;
-    background-color: #5B7BBB;
-	word-wrap: break-word;
+    word-wrap: break-word;
 	white-space: normal;
+    background: #e2c9c3 url(/static/ru/images/background_beige.jpg);
 }
 h1{
     text-align: center;
@@ -11,19 +11,16 @@ h1{
 p{
     text-align: center;
 }
-
 form{
     margin: auto;
     float: left;
-}
-.container-fluid-reformat{
-    min-height: 1050px;
 }
 .block_01{
     background-color: #7e3d4a;
 }
 .block_02 {
     border-bottom: solid 5px #7e3d4a;
+    background: rgba(215, 181, 169, 0.7);
 }
 .block_02 img{
     display: block;
@@ -33,8 +30,13 @@ form{
     height: auto;
     width: auto\9; /* ie8 */
 }
-
-
+.block_03{
+    min-height: 600px;
+    background: rgba(215, 181, 169, 0.7);
+}
+.block_04{
+    background-color: #7E3D4A;
+}
 .custom-toggler .navbar-toggler-icon {
 	border: 1px dashed rgba(255,255,255, 0.1);
 	border-radius: 5px;
@@ -123,6 +125,7 @@ form{
 .block{
     float: left;
     margin-top: 5%;
+    left: 6%;
 }
 .advertising {
     display: block;
@@ -135,9 +138,21 @@ form{
 .text p{
     text-align: left;
 }
-.input{
-
+.footer_reformat{
+    color: white;
+    margin-top: 14px;
+    font-size: 13px;
 }
 #id_quantity{
     width: 40px;
+}
+
+.support_form{
+
+}
+.add_cart_form{
+
+}
+.add_comment_form{
+
 }

@@ -1,14 +1,15 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.checks import messages
+from django.core.paginator import Paginator
 from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView
 from django.views.decorators.http import require_POST
-from .models import Products, Category, OrderItem, Order, Profile, Comments
+from .models import Products, Category, OrderItem, Order, Comments
 from .cart import Cart
-from .forms import CartAddProductForm, OrderCreateForm, UserForm, ProfileForm, CommentCreateForm
+from .forms import CartAddProductForm, OrderCreateForm, UserForm, ProfileForm, CommentCreateForm, SupportForm
 from django.contrib.admin.views.decorators import staff_member_required
 
 """
@@ -20,6 +21,25 @@ from django.http import HttpResponse
 
 
 # Create your views here.
+
+def support(request):
+    current_user = request.user
+    if request.method == 'POST':
+        form = SupportForm(request.POST)
+        if form.is_valid():
+            sup = form.save()
+            return render(request, 'ru/supports/support_successful.html', {'sup': sup})
+    try:
+        form = SupportForm(initial={
+            'first_name': current_user.first_name,
+            'last_name': current_user.last_name,
+            'email': current_user.email,
+            'number_phone': current_user.profile.number_phone,
+        })
+        return render(request, 'ru/supports/support.html', {'form': form})
+    except:
+        form = SupportForm()
+        return render(request, 'ru/supports/support.html', {'form': form})
 
 
 def contact(request):
@@ -40,7 +60,6 @@ def payment(request):
     })
 
 
-#dasdsa
 @login_required
 @transaction.atomic
 def my_room(request):
@@ -111,7 +130,6 @@ def cart_detail(request):
 
 def order_create(request):
     cart = Cart(request)
-    user = User(request)
     current_user = request.user
     if request.method == 'POST':
         form = OrderCreateForm(request.POST)
@@ -196,6 +214,9 @@ def category_list_view(request):
     category_list = Category.objects.all()
     products_list = Products.objects.all()
     cart = Cart(request)
+    paginator = Paginator(products_list, 3)
+    page = request.GET.get('page')
+    products = paginator.get_page(page)
     for item in cart:
         item['update_quantity_form'] = CartAddProductForm(initial={
             'quantity': item['quantity'],
@@ -204,7 +225,8 @@ def category_list_view(request):
     return render(request, 'ru/category_list.html', {
         'category_list': category_list,
         'products_list': products_list,
-        'cart': cart
+        'cart': cart,
+        'products': products
     })
 
 

@@ -11,7 +11,7 @@
     {% block title %}<title></title>{% endblock %}
 </head>
 <body>
-<div class='container-fluid container-fluid-reformat' style="background-color: #e2c9c3;">
+<div class='container-fluid container-fluid-reformat'>
     <div class="row block_01">
         <nav class="navbar navbar-expand-lg custom-toggler" style="width: 100%;">
             <br>
@@ -69,7 +69,7 @@
     <div class="row block_02">
         <div class="col-12"><a href="{% url "ru:category_list" %}"><img src="{% static 'ru/images/main_img.png' %}" align="center"></a>
         </div>
-        <div class="col-12 categories" style="padding-top: 15px">
+        <div class="col-12 categories" style="padding-top: 15px;">
             <ul>
                 {% for category in category_list %}
                     {% if category.available %}
@@ -85,17 +85,18 @@
     </div>
 
     <div class="row block_03">
-
         {% block content %}
 
         {% endblock %}
     </div>
 
-
-
-
-
-
+    <div class="row block_04">
+        <div class="col-12 footer_reformat">
+            <p>© 2018 Avelinimus Все права защищены.</p>
+            <p>По всем вопросам обращаться в<a href="{% url 'ru:support' %}"> службу поддержки</a>.</p>
+            <p>Наша почта ibiza@ibiza.ibiza</p>
+      </div>
+    </div>
 
 <script src="{% static 'js/top_menu.js' %}"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

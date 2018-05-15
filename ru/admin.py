@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.utils.html import format_html
 from ru.models import Products, Category, Profile
 from ru.models import Order, OrderItem
-from ru.models import Comments
+from ru.models import Comments, Support
 from django.http import HttpResponse
 import csv
 import datetime
@@ -74,6 +74,14 @@ class ProductsAdmin(admin.ModelAdmin):
     inlines = [ProductsInline]
 
 
+@admin.register(Support)
+class SupportAdmin(admin.ModelAdmin):
+    list_display = ['title', 'email', 'number_phone', 'created', 'verified']
+    list_filter = ['verified']
+    list_editable = ['verified']
+    search_fields = ['title', 'email', 'number_phone']
+
+
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ['address', 'postal_code', 'city', 'number_phone']
@@ -92,7 +100,6 @@ class OrderAdmin(admin.ModelAdmin):
     search_fields = ['id', 'first_name', 'last_name', 'email', 'address', 'city']
     inlines = [OrderItemInline]
     actions = [export_to_CSV]
-
 
 
 

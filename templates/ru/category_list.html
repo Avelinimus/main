@@ -19,12 +19,12 @@
                         <div class="col-12 title" style="padding-top: 2%"><a href="{{ category.get_absolute_url }}" style="color: #7e3d4a;">{{ category.name }}</a></div>
                     {% endif %}
                 {% endif %}
-                {% for product in products_list %}
+                {% for product in products %}
                     {% if category.available %}
                         {% if product.available %}
                             {% if product.category|lower == category.name|lower %}
-                                <div class="col-12 col-md-4 block" style="padding-top: 1%;padding-bottom: 1%">
-                                    <a href="{{ product.get_absolute_url }}"><img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "ru/images/no_image.png"%}{% endif %}" width="200" height="200" align="center" style="margin-right: 15px"></a>
+                                <div class="col-12 col-md-4 block" style="padding-bottom: 3%">
+                                    <a href="{{ product.get_absolute_url }}"><img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "ru/images/no_image.png"%}{% endif %}" width="300" height="300" align="center"></a>
                                 </div>
                             {% endif %}
                         {% endif %}

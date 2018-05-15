@@ -20,13 +20,13 @@
             {% else %}
                 <h5 style="text-align: right">Цена: {{ product.price }} грн.</h5>
             {% endif %}
-            <form action="{% url "ru:cart_add" product.id %}" method="post" style="margin: auto">
+            <form action="{% url "ru:cart_add" product.id %}" method="post" class="add_cart_form">
                 {{ cart_product_form.as_p }}
                 {% csrf_token %}
                 <input type="submit" value="Добавить в корзину">
             </form>
 
-        <form action="{% url "ru:comment_add" product.id %}" method="post">
+        <form action="{% url "ru:comment_add" product.id %}" method="post" class="add_comment_form">
             {% csrf_token %}
             {{ comment_product_form.as_p }}
             <input type="submit" value="Send comment" />

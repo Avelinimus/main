@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>
+<p>
     {% block top_menu %}
         <div class="top-menu">
             <ul class="navbar-nav mr-auto">
@@ -25,7 +25,12 @@
         </div>
     {% endblock %}
     {% block content %}
-        <div class="col-12">
+
+        <div class="col-4">
+            <p><a href="{% url 'ru:support'%}">Служба поддержки</a></p>
+            <p><a href="{% url 'account_logout' %}">Выйти из аккаунта</a></p>
+        </div>
+        <div class="col-8">
             <form method="post">
                 {% csrf_token %}
                 {{ user_form.as_p }}
@@ -33,7 +38,6 @@
                 <button type="submit">Сохранить изменения</button>
             </form>
         </div>
-        <a href="{% url 'account_logout' %}">Выйти из аккаунта</a>
     {% endblock %}
 </body>
 </html>

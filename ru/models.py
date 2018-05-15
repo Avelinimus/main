@@ -51,7 +51,7 @@ class Products(models.Model):
     created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
     available = models.BooleanField(default=True, verbose_name="Отображать")
     discount = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)], default=0,
-                                   verbose_name='В процентах')
+                                   verbose_name='Скидка (в процентах)')
 
     def __str__(self):
         return self.name
@@ -144,6 +144,23 @@ class Profile(models.Model):
     @property
     def get_id_profile(self):
         return User.objects.get(pk=self.user_id)
+
+
+class Support(models.Model):
+
+    class Meta:
+        ordering = ['title']
+        verbose_name = 'Оповещение о проблеме'
+        verbose_name_plural = 'Оповещение о проблемах'
+
+    title = models.CharField(max_length=150, verbose_name='Заголовок')
+    email = models.EmailField(verbose_name='Email')
+    first_name = models.CharField(verbose_name='Имя', max_length=50)
+    last_name = models.CharField(verbose_name='Фамилия', max_length=100)
+    number_phone = models.CharField(verbose_name='Моб. телефон', max_length=13, default='+380', blank=True)
+    description = RichTextUploadingField(verbose_name='Детальное описание проблемы')
+    created = models.DateTimeField(verbose_name='Создан', auto_now_add=True)
+    verified = models.BooleanField(default=False, verbose_name='Проверено')
 
 
 @receiver(post_save, sender=User)

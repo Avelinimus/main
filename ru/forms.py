@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
-from .models import Order, Profile, Comments
+from .models import Order, Profile, Comments, Support
 
 
 class CartAddProductForm(forms.Form):
@@ -33,3 +33,9 @@ class CommentCreateForm(forms.ModelForm):
     class Meta:
         model = Comments
         fields = ['title', 'comments_text', 'author']
+
+
+class SupportForm(forms.ModelForm):
+    class Meta:
+        model = Support
+        fields = ['title', 'first_name', 'last_name', 'email', 'number_phone', 'description']
