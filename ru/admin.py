@@ -53,7 +53,9 @@ export_to_CSV.short_description = 'Export CSV'
 
 class ProductsInline(admin.StackedInline):
     model = Comments
-    extra = 2
+    extra = 1
+
+
 
 
 @admin.register(Category)
@@ -72,6 +74,13 @@ class ProductsAdmin(admin.ModelAdmin):
     search_fields = ['name', 'category']
     prepopulated_fields = {'slug': ('name',)}
     inlines = [ProductsInline]
+
+    def get_formsets(self, request, obj=None):
+        for inline in self.get_inline_instances(request, obj):
+            # hide MyInline in the add view
+            if isinstance(inline, ProductsInline) and obj is None:
+                continue
+            yield inline.get_formset(request, obj)
 
 
 @admin.register(Support)

@@ -34,7 +34,7 @@ urlpatterns += [
     # Подключаем интерактивный редактор
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
     url(r'^accounts/', include('allauth.urls')),
-
+    url(r'^paypal/', include('paypal.standard.ipn.urls')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

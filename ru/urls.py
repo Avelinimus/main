@@ -23,5 +23,8 @@ urlpatterns += [
     url(r'^cart_detail/$', views.cart_detail, name='cart_detail'),
     url(r'^create_order/$', views.order_create, name='order_create'),
     url(r'^admin/order/(?P<order_id>\d+)/$', views.admin_order_detail, name='admin_order_detail'),
+    url(r'^process/$', views.payment_process, name='process'),
+    url(r'^done/$', views.payment_done, name='done'),
+    url(r'^canceled/$', views.payment_canceled, name='canceled')
     # url(r'^admin/order/(?P<order_id>\d+)/pdf/$', views.admin_order_PDF, name='admin_order_PDF')
 ]

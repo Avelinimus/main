@@ -125,6 +125,7 @@ form{
 .block{
     float: left;
     margin-top: 5%;
+    overflow: auto;
 }
 .advertising {
     display: block;

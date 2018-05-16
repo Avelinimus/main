@@ -71,6 +71,7 @@ class Order(models.Model):
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
 
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     first_name = models.CharField(verbose_name='Имя', max_length=50)
     last_name = models.CharField(verbose_name='Фамилия', max_length=50)
     email = models.EmailField(verbose_name='Email')
@@ -85,7 +86,8 @@ class Order(models.Model):
         return 'Заказ: {}'.format(self.id)
 
     def get_total_cost(self):
-        return sum(item.get_cost() for item in self.items.all())
+        cost = Decimal(sum(item.get_cost() for item in self.items.all()))
+        return cost
 
 
 class OrderItem(models.Model):
@@ -106,7 +108,10 @@ class OrderItem(models.Model):
         return '{}'.format(self.id)
 
     def get_cost(self):
-        return self.price * self.quantity
+        if self.discount > 0:
+            return ((self.discount/100) * self.price) * self.quantity
+        else:
+            return self.price * self.quantity
 
 
 class Comments(models.Model):

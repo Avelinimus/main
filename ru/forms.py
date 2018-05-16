@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.forms import HiddenInput
+
 from .models import Order, Profile, Comments, Support
 
 
@@ -13,8 +15,11 @@ class CartAddProductForm(forms.Form):
 class OrderCreateForm(forms.ModelForm):
     class Meta:
         model = Order
-        fields = ['first_name', 'last_name', 'email', 'address', 'postal_code',
+        fields = ['user', 'first_name', 'last_name', 'email', 'address', 'postal_code',
                   'city']
+        widgets = {
+            'user': HiddenInput,
+        }
 
 
 class UserForm(forms.ModelForm):
@@ -32,7 +37,11 @@ class ProfileForm(forms.ModelForm):
 class CommentCreateForm(forms.ModelForm):
     class Meta:
         model = Comments
-        fields = ['title', 'comments_text', 'author']
+        fields = ['title', 'comments_text']
+        widgets = {
+            'author': HiddenInput,
+        }
+
 
 
 class SupportForm(forms.ModelForm):

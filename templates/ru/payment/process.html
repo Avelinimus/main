@@ -1,0 +1,19 @@
+{% extends "ru/base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+{% block title %}Оплата PayPal{% endblock %}
+
+{% block content %}
+  <h1>Оплата PayPal</h1>
+  {{ form.render }}
+{% endblock %}
+
+</body>
+</html>

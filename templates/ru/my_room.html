@@ -27,6 +27,8 @@
     {% block content %}
 
         <div class="col-4">
+            <p>Количество заказов:{{ a }}</p>
+            {% if user.is_staff %}<p><a href="{% url 'admin:index' %}">Административная панель</a><p>{% endif %}
             <p><a href="{% url 'ru:support'%}">Служба поддержки</a></p>
             <p><a href="{% url 'account_logout' %}">Выйти из аккаунта</a></p>
         </div>

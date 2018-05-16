@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -39,13 +41,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ru.apps.RuConfig',
-
+    'paypal.standard.ipn',
     'bootstrap3',
     'ckeditor',
     'ckeditor_uploader',
     'allauth',
     'allauth.account',
-    'allauth.socialaccount'
+    'allauth.socialaccount',
+
 ]
 
 MIDDLEWARE = [
@@ -123,7 +126,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru-ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Kiev'
 
 USE_I18N = True
 
@@ -146,8 +149,20 @@ SITE_ID = 1
 
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = 'accounts/login'
-EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
 ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 60
 
-
 CART_SESSION_ID = 'ru'
+
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+PAYPAL_RECEIVER_EMAIL = 'dikiigr@gmail.com'
+PAYPAL_TEST = True
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'avel63146@gmail.com'
+EMAIL_HOST_PASSWORD = 'taras1234'
+DEFAULT_FROM_EMAIL = 'Avel'
+DEFAULT_TO_EMAIL = 'avel63146@gmail.com'
+
