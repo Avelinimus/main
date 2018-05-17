@@ -13,7 +13,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, DetailView
 from django.views.decorators.http import require_POST
 from paypal.standard.forms import PayPalPaymentsForm
-from .models import Products, Category, OrderItem, Order, Comments
+from .models import Products, Category, OrderItem, Order, Comments, Contact, Payment
 from .cart import Cart
 from .forms import CartAddProductForm, OrderCreateForm, UserForm, ProfileForm, CommentCreateForm, SupportForm
 from django.contrib.admin.views.decorators import staff_member_required
@@ -49,20 +49,24 @@ def support(request):
 
 
 def contact(request):
+    contacts = Contact.objects.all()
     category_list = Category.objects.all()
     products_list = Products.objects.all()
     return render(request, 'ru/contact.html', {
         'category_list': category_list,
         'products_list': products_list,
+        'contacts': contacts
     })
 
 
 def payment(request):
+    payments = Payment.objects.all()
     category_list = Category.objects.all()
     products_list = Products.objects.all()
     return render(request, 'ru/payment.html', {
         'category_list': category_list,
         'products_list': products_list,
+        'payments': payments
     })
 
 
@@ -71,8 +75,12 @@ def payment(request):
 def my_room(request):
     category_list = Category.objects.all()
     products_list = Products.objects.all()
-    username = str(request.user)
-    user_order = User.objects.get(username=username)
+    order_list = Order.objects.all()
+    current_user = str(request.user)
+    user = User.objects.get(username=current_user)
+    order = Order.objects.get(id=user.id)
+    order_item = OrderItem.objects.get(id=order.id)
+
     cart = Cart(request)
     for item in cart:
         item['update_quantity_form'] = CartAddProductForm(initial={
@@ -92,10 +100,13 @@ def my_room(request):
     return render(request, 'ru/my_room.html', {
         'category_list': category_list,
         'products_list': products_list,
-        'user_order ': user_order ,
+        'order_list': order_list,
+        'order': order,
+        'order_item': order_item,
         'user_form': user_form,
         'profile_form': profile_form,
-        'cart': cart
+        'cart': cart,
+        'user':user
     })
 
 

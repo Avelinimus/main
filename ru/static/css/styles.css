@@ -122,10 +122,10 @@ form{
     padding: 0;
     width: 100%;
 }
-.block{
-    float: left;
-    margin-top: 5%;
-    overflow: auto;
+.block {
+    display: block;
+    max-width: 100%;
+    height: auto;
 }
 .advertising {
     display: block;
@@ -146,6 +146,28 @@ form{
 #id_quantity{
     width: 40px;
 }
+.img-block{
+    max-width: 300px;
+}
+.img-block:hover .short_description{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.short_description{
+    max-width: 300px;
+    min-height: 300px;
+    min-width: 300px;
+    display: none;
+    position: absolute;
+    margin-top: auto;
+    top: 0;
+    color: white;
+    background-color: rgba(36, 36, 36, 0.75);
+    text-align: center;
+
+}
+
 
 .support_form{
 

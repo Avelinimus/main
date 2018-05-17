@@ -4,6 +4,7 @@ from django.utils.html import format_html
 from ru.models import Products, Category, Profile
 from ru.models import Order, OrderItem
 from ru.models import Comments, Support
+from ru.models import Contact, Payment
 from django.http import HttpResponse
 import csv
 import datetime
@@ -56,8 +57,6 @@ class ProductsInline(admin.StackedInline):
     extra = 1
 
 
-
-
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ['name', 'slug', 'available']
@@ -74,13 +73,6 @@ class ProductsAdmin(admin.ModelAdmin):
     search_fields = ['name', 'category']
     prepopulated_fields = {'slug': ('name',)}
     inlines = [ProductsInline]
-
-    def get_formsets(self, request, obj=None):
-        for inline in self.get_inline_instances(request, obj):
-            # hide MyInline in the add view
-            if isinstance(inline, ProductsInline) and obj is None:
-                continue
-            yield inline.get_formset(request, obj)
 
 
 @admin.register(Support)
@@ -104,14 +96,35 @@ class OrderItemInline(admin.TabularInline):
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['id', 'first_name', 'last_name', 'email', 'address',
-                    'postal_code', 'city', 'paid', 'created', 'updated', order_detail]
-    list_filter = ['paid', 'created', 'updated']
+                    'postal_code', 'city', 'paid', 'sent', 'created', 'updated', order_detail]
+    list_editable = ['sent']
+    list_filter = ['paid', 'created', 'updated', 'paid', 'sent']
     search_fields = ['id', 'first_name', 'last_name', 'email', 'address', 'city']
     inlines = [OrderItemInline]
     actions = [export_to_CSV]
 
 
+@admin.register(Contact)
+class ContactAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        num_objects = self.model.objects.count()
+        if num_objects >= 1:
+            return False
+        else:
+            return True
+
+    list_display = ['title', 'description']
 
 
+@admin.register(Payment)
+class PaymentAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        num_objects = self.model.objects.count()
+        if num_objects >= 1:
+            return False
+        else:
+            return True
+
+    list_display = ['title', 'description']
 
 

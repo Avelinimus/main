@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<p>
+<body>
     {% block top_menu %}
         <div class="top-menu">
             <ul class="navbar-nav mr-auto">
@@ -27,7 +27,15 @@
     {% block content %}
 
         <div class="col-4">
-            <p>Количество заказов:{{ a }}</p>
+            <p>Ваши заказы:</p>
+            {% for order in order_list %}
+                {% if order.user.id|lower == user.id|lower %}
+                    {% if not order.sent %}
+                        <p>Номера заказа: {{ order.id }}</p>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+
             {% if user.is_staff %}<p><a href="{% url 'admin:index' %}">Административная панель</a><p>{% endif %}
             <p><a href="{% url 'ru:support'%}">Служба поддержки</a></p>
             <p><a href="{% url 'account_logout' %}">Выйти из аккаунта</a></p>

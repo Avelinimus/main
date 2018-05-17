@@ -10,7 +10,7 @@
     {% block content %}
         <div class="col-12"  style="margin-top: 40px">
             <h2 align="center">{{ product.name }}</h2>
-            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "ru/images/no_image.png"%}{% endif %}" width="300" height="300" align="left"style="margin-right: 30px">
+            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "ru/images/no_image.png"%}{% endif %}" width="300" height="300"  class=" block">
             <div class="text">{% autoescape off %}{{ product.description }}{% endautoescape %}</div>
             Как давно создана эта услуга: <h6 style="color: #7E3D4A">{{ product.created }}</h6>
             {% if product.discount > 0  %}
@@ -46,7 +46,6 @@
                 {% endif %}
             {% endfor %}
             </div>
-
     {% endblock %}
 </body>
 </html>

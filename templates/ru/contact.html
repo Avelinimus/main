@@ -26,6 +26,13 @@
         </div>
     {% endblock %}
     {% block content %}
+        {% for contact in contacts %}
+
+            <p>{{ contact.title }}</p>
+            {% autoescape off %}
+            {{ contact.description }}
+            {% endautoescape %}
+        {% endfor %}
     {% endblock %}
 </body>
 </html>

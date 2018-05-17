@@ -14,5 +14,5 @@ def order_created(order_id):
     subject = 'Заказ c номером {}'.format(order.id)
     message = 'Дорогой, {}, вы успешно сделали заказ.\
                Номер вашего заказа {}'.format(order.first_name, order.id)
-    mail_send = send_mail(subject, message, EMAIL_HOST_USER, [order.email])
+    mail_send = send_mail(subject, message,[order.email], fail_silently=False)
     return mail_send

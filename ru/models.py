@@ -81,6 +81,7 @@ class Order(models.Model):
     created = models.DateTimeField(verbose_name='Создан', auto_now_add=True)
     updated = models.DateTimeField(verbose_name='Обновлен', auto_now=True)
     paid = models.BooleanField(verbose_name='Оплачен', default=False)
+    sent = models.BooleanField(verbose_name='Товар пришел', default=False)
 
     def __str__(self):
         return 'Заказ: {}'.format(self.id)
@@ -166,6 +167,34 @@ class Support(models.Model):
     description = RichTextUploadingField(verbose_name='Детальное описание проблемы')
     created = models.DateTimeField(verbose_name='Создан', auto_now_add=True)
     verified = models.BooleanField(default=False, verbose_name='Проверено')
+
+
+class Contact(models.Model):
+
+    class Meta:
+        ordering = ['title']
+        verbose_name = 'Описание для контактов'
+        verbose_name_plural = 'Описание для доставки и оплаты'
+
+    title = models.CharField(max_length=100, db_index=True, verbose_name='Название')
+    description = RichTextUploadingField(blank=True, verbose_name='Описание')
+
+    def __str__(self):
+        return self.title
+
+
+class Payment(models.Model):
+
+    class Meta:
+        ordering = ['title']
+        verbose_name = 'Описание для доставки и оплаты'
+        verbose_name_plural = 'Описание для доставки и оплаты'
+
+    title = models.CharField(max_length=100, db_index=True, verbose_name='Название')
+    description = RichTextUploadingField(blank=True, verbose_name='Описание')
+
+    def __str__(self):
+        return self.title
 
 
 @receiver(post_save, sender=User)

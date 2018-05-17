@@ -25,5 +25,13 @@
                 </ul>
             </div>
     {% endblock %}
+    {% block content %}
+        {% for payment in payments %}
+            <p>{{ payment.title }}</p>
+            {% autoescape off %}
+            {{ payment.description }}
+            {% endautoescape %}
+        {% endfor %}
+    {% endblock %}
 </body>
 </html>
