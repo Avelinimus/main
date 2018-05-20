@@ -3,15 +3,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+   {% block title %}<title>Оплата отклонена</title>{% endblock %}
 </head>
 <body>
-
-
-{% block title %}Оплата отклонена{% endblock %}
-
 {% block content %}
-  <h1>Оплата отклонена</h1>
+  <h1 style="color: #7e3d4a">Оплата отклонена</h1>
   <p>Возникли проблемы с оплатой!</p>
 {% endblock %}
 </body>

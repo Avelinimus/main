@@ -235,6 +235,9 @@ def payment_canceled(request):
 def shares_list_view(request):
     category_list = Category.objects.all()
     products_list = Products.objects.all()
+    paginator = Paginator(products_list, 20)
+    page = request.GET.get('page')
+    products = paginator.get_page(page)
     cart = Cart(request)
     for item in cart:
         item['update_quantity_form'] = CartAddProductForm(initial={
@@ -245,6 +248,7 @@ def shares_list_view(request):
         'category_list': category_list,
         'products_list': products_list,
         'cart': cart,
+        'products': products
     })
 
 
@@ -302,10 +306,14 @@ def category_detail_view(request, slug):
     category_list = Category.objects.all()
     products_list = Products.objects.all()
     category = get_object_or_404(Category, slug=slug, available=True)
+    paginator = Paginator(products_list, 20)
+    page = request.GET.get('page')
+    products = paginator.get_page(page)
     return render(request, 'ru/category_detail.html', {
         'category_list': category_list,
         'products_list': products_list,
         'category': category,
+        'products': products
     })
 
 

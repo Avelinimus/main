@@ -3,34 +3,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+     {% block title %}<title>Новый заказ</title>{% endblock %}
 </head>
 <body>
 
-{% block title %}
-  Оформление заказа
-{% endblock %}
+
 
 {% block content %}
-  <h1>Оформление заказа</h1>
+
+  <h1 style="color: #7e3d4a">Оформление заказа</h1>
+
+
   <div class="col-sm-4">
-    <h2>Заполните форму</h2>
-    <form class="order-form" action="." method="post">
-      {{ form.as_p }}
-      {% csrf_token %}
-      <input type="submit" value="Отправить">
-    </form>
+      <h2 style="color: #7e3d4a;text-align: center">Заполните форму</h2>
+      <div class="order_form" align="center">
+          <form class="order-form" action="." method="post">
+                {{ form.as_p }}
+                {% csrf_token %}
+                <input type="submit" value="Отправить">
+          </form>
+      </div>
   </div>
 
   <div class="order-info col-sm-8">
-    <h2>Ваш заказ</h2>
-    <ul>
-      {% for item in cart  %}
-        <li>
-          {{ item.product.name }} | Количество: {{ item.quantity }} | Цена: {{ cart.get_total_price_with_discount }}
-        </li>
-      {% endfor %}
-    </ul>
+        <h2 style="color: #7e3d4a; text-align: center">Ваш заказ</h2>
+        {% for item in cart  %}
+            <p>
+              {{ item.product.name }} | Количество: {{ item.quantity }} | Цена: {{ cart.get_total_price_with_discount }}
+            </p>
+        {% endfor %}
   </div>
 {% endblock %}
 

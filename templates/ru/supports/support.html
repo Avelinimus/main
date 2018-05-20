@@ -7,11 +7,14 @@
 </head>
 <body>
     {% block content %}
-        <form method="post" class="support_form">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit">Отправить в поддержку</button>
-            </form>
+        <div class="col-12" align="center"><p style='text-align: center;max-width: 800px;width: 100%'>dasdas</p></div>
+            <div class="support_form" align="center">
+                <form method="post" class="support_form">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit">Отправить в поддержку</button>
+                </form>
+            </div>
     {% endblock %}
 </body>
 </html>

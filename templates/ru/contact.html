@@ -4,7 +4,7 @@
 <head>
     {% load static %}
     <meta charset="UTF-8">
-    <title>Contacts</title>
+    {% block title %}<title>Контакты</title>{% endblock %}
 </head>
 <body>
     {% block top_menu %}
@@ -27,11 +27,12 @@
     {% endblock %}
     {% block content %}
         {% for contact in contacts %}
-
-            <p>{{ contact.title }}</p>
-            {% autoescape off %}
-            {{ contact.description }}
-            {% endautoescape %}
+            <div class="col-12" >
+                <h1 style="padding-bottom: 20px;color: #7E3D4A" >{{ contact.title }}</h1>
+                {% autoescape off %}
+                    <div style="text-align: center">{{ contact.description }}</div>
+                {% endautoescape %}
+            </div>
         {% endfor %}
     {% endblock %}
 </body>

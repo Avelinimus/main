@@ -7,13 +7,38 @@ body{
 }
 h1{
     text-align: center;
+    width: 100%;
 }
 p{
+    color: #7e3d4a;
     text-align: center;
+    width: 100%;
 }
+button{
+    background-color: #7e3d4a;
+    border-color: #7e3d4a;
+    color: white;
+    border-radius: 4px;
+    border-style: solid none;
+    cursor: pointer;
+    width: 100%;
+}
+
 form{
     margin: auto;
     float: left;
+}
+input {
+    background-color: #7e3d4a;
+    border-color: #7e3d4a;
+    color: white;
+    border-radius: 4px;
+    border-style: solid none;
+    cursor: pointer;
+}
+textarea {
+    width: 250px;
+    height: 100px;
 }
 .block_01{
     background-color: #7e3d4a;
@@ -72,7 +97,7 @@ form{
 }
 .title {
   /* чтобы линии не выходили за ширину блока заголовка */
-  overflow: hidden;
+    overflow: hidden;
     margin: 0 auto;
     text-align: center;
     font-size: 24px;
@@ -118,15 +143,16 @@ form{
   margin-right: -100%;
 }
 .products{
-    margin: 9% 9%;
-    padding: 0;
-    width: 100%;
+    box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto
 }
 .block {
     display: block;
-    max-width: 100%;
+    max-width:100%;
     height: auto;
 }
+
 .advertising {
     display: block;
     margin: 0 auto;
@@ -136,7 +162,10 @@ form{
     width: auto \9;
 }
 .text p{
-    text-align: left;
+    text-align: center;
+    max-width: 800px;
+    width: 100%;
+    margin-top: 40px;
 }
 .footer_reformat{
     color: white;
@@ -146,35 +175,145 @@ form{
 #id_quantity{
     width: 40px;
 }
-.img-block{
-    max-width: 300px;
-}
 .img-block:hover .short_description{
+    box-sizing: border-box;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: rgba(36, 36, 36, 0.9);
+    width: 100%;
+    height: 100%;
+}
+.img-block:hover .short_description_two{
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(36, 36, 36, 0.9);
+    width: 100%;
+    height: 100%;
 }
 .short_description{
-    max-width: 300px;
-    min-height: 300px;
-    min-width: 300px;
+    box-sizing: border-box;
     display: none;
     position: absolute;
-    margin-top: auto;
+    text-align: center;
     top: 0;
     color: white;
-    background-color: rgba(36, 36, 36, 0.75);
+    max-width: 286px;
+    min-width: 0;
+    max-height: 286px;
+    min-height: 0;
+}
+.short_description_two{
+    box-sizing: border-box;
+    display: none;
+    position: absolute;
     text-align: center;
+    top: 0;
+    color: white;
+    max-width: 300px;
+    min-width: 0;
+    max-height: 300px;
+    min-height: 0;
 
 }
-
-
+.name_product {
+    color: #7e3d4a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    max-width: 300px;
+    max-height: 300px;
+    width: 100%;
+    height: 100%;
+}
 .support_form{
+    margin: auto;
+}
 
+.support_form p{
+    text-align: right;
+    color: #7e3d4a;
+}
+.support_form button{
+    background-color: #7e3d4a;
+    border-color: #7e3d4a;
+    color: white;
+    border-radius: 4px;
+    border-style: solid none;
+    cursor: pointer;
 }
 .add_cart_form{
-
+    float: right;
 }
 .add_comment_form{
+    width: 100%;
+    margin-top: 20px;
+}
+.data_form{
+    float: right;
+}
+.data_form p{
+    text-align: right;
+}
+.data_form button{
+    background-color: #7e3d4a;
+    border-color: #7e3d4a;
+    color: white;
+    border-radius: 4px;
+    border-style: solid none;
+    cursor: pointer;
+}
+.order-form{
+     margin: auto;
+}
+.order-form p {
+    text-align: right;
+}
+.comment{
+    padding: 10px;
+    width: 30%;
+    margin:auto;
+}
+#signup_form p{
+    text-align: right;
+}
+.login p {
+    text-align: right;
+}
+.pay-pall button{
+    background-color: rgba(126, 61, 74, 0);
+    border-color: rgba(0, 0, 0, 0);
+}
 
+
+@media only screen and (max-width: 480px), only screen and (max-device-width: 480px) {
+    .img-block:hover .short_description_two{
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(36, 36, 36, 0.9);
+        width: 90%;
+        height: 85%;
+    }
+    .img-block:hover .short_description{
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(36, 36, 36, 0.9);
+        width: 90%;
+        height: 85%;
+    }
+    .name_product {
+        width: 90%;
+        height: 100%;
+        font-size: 160%;
+    }
+    .comment{
+        width: 100%;
+    }
 }

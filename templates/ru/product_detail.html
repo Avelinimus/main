@@ -4,48 +4,60 @@
 <head>
     {% load static %}
     <meta charset="UTF-8">
-    {% block title %}<title>Услуга-{{ product.name }}</title>{% endblock %}
+    {% block title %}<title>Продукт-"{{ product.name }}"</title>{% endblock %}
 </head>
 <body>
     {% block content %}
-        <div class="col-12"  style="margin-top: 40px">
-            <h2 align="center">{{ product.name }}</h2>
-            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "ru/images/no_image.png"%}{% endif %}" width="300" height="300"  class=" block">
-            <div class="text">{% autoescape off %}{{ product.description }}{% endautoescape %}</div>
-            Как давно создана эта услуга: <h6 style="color: #7E3D4A">{{ product.created }}</h6>
+        <div class="col-12"  style="margin-bottom: 20px ;color: #7E3D4A">
+            <h1  align="center">{{ product.name }}</h1>
+            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "ru/images/no_image.png"%}{% endif %}" width="300" height="300"  class=" block" style="margin: auto; padding-top: 20px">
+            <div class="text" align="center">{% autoescape off %}{{ product.description }}{% endautoescape %}</div>
+            <p style="text-align: left">Продукт появился в продаже:</p> <h6 style="color: #7E3D4A;text-align: left">{{ product.created }}</h6>
             {% if product.discount > 0  %}
-                <h5 style="text-align: right">Старая цена: {{ product.price }} грн.</h5>
-                <h5 style="text-align: right">Цена по акции: {{ product.get_discount }} грн.</h5>
-                <h5 style="text-align: right">Акция на продукт в: {{ product.discount }}%</h5>
+                <h4 style="text-align: right">Цена без акции: {{ product.price }} грн.</h4>
+                <h4 style="text-align: right">Цена по акции: {{ product.get_discount }} грн.</h4>
+                <h4 style="text-align: right">Акция на продукт в: {{ product.discount }}%</h4>
             {% else %}
-                <h5 style="text-align: right">Цена: {{ product.price }} грн.</h5>
+                <h4 style="text-align: right">Цена: {{ product.price }} грн.</h4>
             {% endif %}
-            <form action="{% url "ru:cart_add" product.id %}" method="post" class="add_cart_form">
-                {{ cart_product_form.as_p }}
-                {% csrf_token %}
-                <input type="submit" value="Добавить в корзину">
-            </form>
+            <div align="center" class="add_cart_form">
+                <form action="{% url "ru:cart_add" product.id %}" method="post" class="add_cart_form">
+                    {{ cart_product_form.as_p }}
+                    {% csrf_token %}
+                    <input type="submit" value="Добавить в корзину">
+                </form>
+            </div>
         {% if user.is_active %}
-            <form action="{% url "ru:comment_add" product.id %}" method="post" class="add_comment_form">
-                {% csrf_token %}
-                {{ comment_product_form.as_p }}
-                <input type="submit" value="Send comment" />
-            </form>
+            <div class="add_comment_form" align="center">
+                <form action="{% url "ru:comment_add" product.id %}" method="post" class="add_comment_form">
+                    {% csrf_token %}
+                    {{ comment_product_form.as_p }}
+                    <input type="submit" value="Send comment" />
+                </form>
+            </div>
         {% else %}
-            <p>Что бы оставить комментарий вам нужно быть авторизованым.</p>
-            <p><a href="{% url 'account_signup' %}"> Регистрация</a>/<a href="{% url 'account_login' %}">Вход</a></p>
+            <p align="center" style="margin: auto;padding-top: 79px">Что бы оставить комментарий вам нужно быть авторизованым.</p>
+            <p align="center" style="margin: auto"><a href="{% url 'account_signup' %}"> Регистрация</a>/<a href="{% url 'account_login' %}">Вход</a></p>
         {% endif %}
-        </div>
-        <div><h4>Comments:</h4>
+        <div>
+            <h4 style="color: #7e3d4a; margin: auto;width: 100%" align="center">Комментарии:</h4>
             {% for comment in comments_list %}
                 {% if product.name|lower == comment.comments_product|lower %}
                     {% if comment.verified %}
-                        {{ comment.comments_text }} # отображаем текст комментария
-                        {{ comment.created }}
+                        <div class="comment">
+                            <p style="margin-top: 30px;text-align: center">Автор: {{ comment.author }}</p>
+                            <p style="background-color: white;border: 1px solid #7e3d4a;">{{ comment.comments_text }}</p>
+                            <p style="float: left">Был создан: {{ comment.created }}</p>
+                        </div>
                     {% endif %}
                 {% endif %}
             {% endfor %}
-            </div>
+        </div>
+
+
+        </div>
+
+
     {% endblock %}
 </body>
 </html>

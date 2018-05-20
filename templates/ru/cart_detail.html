@@ -4,42 +4,51 @@
 <head>
     {% load static %}
     <meta charset="UTF-8">
-    {% block title %}<title>Общая цена: {{ cart.get_total_price }} грн.</title>{% endblock %}
+    {% block title %}<title>Общая цена корзины: {{ cart.get_total_price }} грн.</title>{% endblock %}
 </head>
 <body>
 {% block content %}
         <div class="col-12">
-
-        <h1>Ваша корзина товаров</h1>
+        <h1 style="color: #7e3d4a">Ваша корзина товаров</h1>
         {% for item in cart %}
             {% with product=item.product %}
                 <div class="col-6 block">
-                    <p style="text-align: center">{{ product.name }}</p>
                     <a href="{{ product.get_absolute_url }}">
                         <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "ru/images/no_image.png"%}{% endif %}" width="150" height="150" align="left" style="margin-right: 15px">
                     </a>
+                    <p style="text-align: left">{{ product.name }}</p>
+                    {% if item.discount %}
+                        <p>Цена за товар: {{ item.discount_price }} грн.</p>
+                        <p>Общая цена за товары: {{ item.total_discount_price }} грн.</p>
+                    {% else %}
+                        <p>Цена за товар: {{ item.price }} грн.</p>
+                        <p>Общая цена за товары: {{ item.total_price }} грн.</p>
+                    {% endif %}
+
+
                     <form action="{% url "ru:cart_add" product.id%}" method="post" class="add">
                         {{ item.update_quantity_form.quantity }}
                         {{ item.update_quantity_form.update }}
                         {% csrf_token %}
                         <input type="submit" value="Обновить">
                     </form>
-                    <p>Цена за товар/услугу с акцией: {{ item.discount_price }} грн.</p>
-                    <p>Цена за товар/услугу без акции: {{ item.price }} грн.</p>
-                    <p>Цена за товары/услуги с акцией: {{ item.total_discount_price }} грн.</p>
-                    <p>Цена за товары/услуги без акции: {{ item.total_price }} грн.</p>
-                    <a href="{% url "ru:cart_remove" product.id%}">Удалить</a>
+
+                    <a href="{% url "ru:cart_remove" product.id%}"><p style="color: navy">Удалить</p></a>
                 </div>
             {% endwith %}
         {% endfor %}
 
         </div>
         <div class="col-12">
-            <p>Общая цена c акцией : {{ cart.get_total_price_with_discount}} грн.</p>
-            <p>Общая цена без акцией : {{ cart.get_total_price }} грн.</p>
-            <p style="text-align: right"><a href="{% url "ru:category_list"%}">Продолжить Шопинг</a></p>
+            {% if not cart.get_total_price_with_discount == 0 %}
+                <p>Общая цена всех товаров : {{ cart.get_total_price_with_discount}} грн.</p>
+            {% else %}
+                <h3 style="text-align: center;color:#7e3d4a;">Пустая</h3>
+            {% endif %}
+
+            <p style="text-align: right"><a href="{% url "ru:category_list"%}" style="color: navy">Продолжить покупки</a></p>
             {% if not cart.get_total_price_with_discount == 0 or not cart.get_total_price == 0 %}
-                <p style="text-align: right"><a href="{% url "ru:order_create"%}">Оформить заказ</a></p>
+                <p style="text-align: right"><a href="{% url "ru:order_create"%}" style="color: navy">Оформить заказ</a></p>
             {% endif %}
         </div>
 

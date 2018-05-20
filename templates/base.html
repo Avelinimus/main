@@ -11,7 +11,7 @@
     {% block title %}<title></title>{% endblock %}
 </head>
 <body>
-<div class='container-fluid container-fluid-reformat'>
+<div class='container-fluid container-fluid-reformat' style="color: #7e3d4a">
     <div class="row block_01">
         <nav class="navbar navbar-expand-lg custom-toggler" style="width: 100%;">
             <br>
@@ -19,7 +19,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent" align="center" style="margin: 7% 7% auto">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent" align="center" style="margin: 0 7% 0 7%">
                 {% block top_menu %}
                     <div class="top-menu">
                         <ul class="navbar-nav mr-auto">
@@ -92,15 +92,11 @@
     </div>
 
     <div class="row block_04">
-        <div class="col-4">
-            <p class="footer_reformat"> © 2018 Avelinimus Все права защищены. </p>
-        </div>
-        <div class="col-4">
-            <p class="footer_reformat"> По всем вопросам обращаться в<a href="{% url 'ru:support' %}"> службу поддержки</a>.</p>
-        </div>
-         <div class="col-4">
-            <p class="footer_reformat">  </p>
-        </div>
+        <div class="col-12 footer_reformat" style="color: white">
+            <p style="text-align: center;color: white">© 2018 Avelinimus Все права защищены.</p>
+            <p style="text-align: center;color: white">По всем вопросам обращаться в<a href="{% url 'ru:support' %}"> службу поддержки</a>.</p>
+            <p style="text-align: center;color: white">Наша почта ibiza@ibiza.ibiza</p>
+      </div>
     </div>
 
 

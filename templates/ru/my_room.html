@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    {% block title %}<title>Моя комната</title>{% endblock %}
 </head>
 <body>
     {% block top_menu %}
@@ -26,27 +26,29 @@
     {% endblock %}
     {% block content %}
 
-        <div class="col-4">
-            <p>Ваши заказы:</p>
+        <div class="col-12 col-md-4" style="color: #7e3d4a">
+            <p style="text-align: center">Мои заказы:</p>
             {% for order in order_list %}
                 {% if order.user.id|lower == user.id|lower %}
                     {% if not order.sent %}
-                        <p>Номера заказа: {{ order.id }}</p>
+                        <p style="text-align: center">Номера заказа: {{ order.id }}</p>
                     {% endif %}
                 {% endif %}
             {% endfor %}
 
-            {% if user.is_staff %}<p><a href="{% url 'admin:index' %}">Административная панель</a><p>{% endif %}
-            <p><a href="{% url 'ru:support'%}">Служба поддержки</a></p>
-            <p><a href="{% url 'account_logout' %}">Выйти из аккаунта</a></p>
+            {% if user.is_staff %}<h3 style="text-align: center"><a href="{% url 'admin:index' %}"style="color: #7e3d4a">Административная панель</a></h3>{% endif %}
+            <h3 style="text-align: center"><a href="{% url 'ru:support'%}"style="color: #7e3d4a">Служба поддержки</a></h3>
+            <h3 style="text-align: center"><a href="{% url 'account_logout' %}"style="color: #7e3d4a">Выйти из аккаунта</a></h3>
         </div>
-        <div class="col-8">
-            <form method="post">
-                {% csrf_token %}
-                {{ user_form.as_p }}
-                {{ profile_form.as_p }}
-                <button type="submit">Сохранить изменения</button>
-            </form>
+        <div class="col-12 col-md-8" style="color: #7e3d4a">
+            <div class="data_form" align="center">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ user_form.as_p }}
+                    {{ profile_form.as_p }}
+                    <button type="submit">Сохранить изменения</button>
+                </form>
+            </div>
         </div>
     {% endblock %}
 </body>

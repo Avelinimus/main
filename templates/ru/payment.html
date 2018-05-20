@@ -4,7 +4,7 @@
 <head>
     {% load static %}
     <meta charset="UTF-8">
-    <title>Payments</title>
+    {% block title %}<title>Доставка и оплата</title>{% endblock %}
 </head>
 <body>
     {% block top_menu %}
@@ -27,10 +27,12 @@
     {% endblock %}
     {% block content %}
         {% for payment in payments %}
-            <p>{{ payment.title }}</p>
-            {% autoescape off %}
-            {{ payment.description }}
-            {% endautoescape %}
+            <div class="col-12">
+                <h1 style="padding-bottom: 20px;color: #7E3D4A">{{ payment.title }}</h1>
+                {% autoescape off %}
+                    <div style="text-align: center">{{ payment.description }}</div>
+                {% endautoescape %}
+            </div>
         {% endfor %}
     {% endblock %}
 </body>

@@ -3,16 +3,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    {% block title %}<title>Оплата PayPal</title>{% endblock %}
 </head>
 <body>
 
-
-{% block title %}Оплата PayPal{% endblock %}
-
 {% block content %}
-  <h1>Оплата PayPal</h1>
-  {{ form.render }}
+    <h1 style="color: #7e3d4a">Спасибо за заказ</h1>
+    <p>Если вы не зарегистрированына сайте, вам стоит записать номер вашего заказа или сфотографировать его.</p>
+    <p>Идентификатор вашего заказа: {{ order.id }}</p>
+    <p style="text-align:center"><a href="{% url "ru:category_list"%}" style="color: navy">Продолжить покупки</a></p>
+    {{ form.render }}
 {% endblock %}
 
 </body>

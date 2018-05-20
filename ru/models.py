@@ -46,7 +46,7 @@ class Products(models.Model):
     image = models.ImageField(upload_to='products/img/%Y/%m/%d/', blank=True,
                               verbose_name="Картинка для новостей (300 x 300)")
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена(грн)")
-    short_description = models.TextField(blank=True, verbose_name="Короткое описание в листе")
+    short_description = models.TextField(max_length=150, blank=True, verbose_name="Короткое описание в листе(150)")
     description = RichTextUploadingField(blank=True, verbose_name="Детальное описание")
     created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
     available = models.BooleanField(default=True, verbose_name="Отображать")
@@ -81,7 +81,7 @@ class Order(models.Model):
     created = models.DateTimeField(verbose_name='Создан', auto_now_add=True)
     updated = models.DateTimeField(verbose_name='Обновлен', auto_now=True)
     paid = models.BooleanField(verbose_name='Оплачен', default=False)
-    sent = models.BooleanField(verbose_name='Товар пришел', default=False)
+    sent = models.BooleanField(verbose_name='Товар отправлен', default=False)
 
     def __str__(self):
         return 'Заказ: {}'.format(self.id)
@@ -142,7 +142,7 @@ class Profile(models.Model):
     address = models.CharField(verbose_name='Адрес', max_length=250, blank=True)
     postal_code = models.CharField(verbose_name='Почтовый код', max_length=20, blank=True)
     number_phone = models.CharField(verbose_name='Моб. телефон', max_length=13, default='+380', blank=True)
-    birth_date = models.DateField(null=True, blank=True)
+    birth_date = models.DateField(null=True, blank=True, verbose_name='День рождения')
 
     def __str__(self):
         return 'Профиль: {}'.format(self.user)
@@ -174,7 +174,7 @@ class Contact(models.Model):
     class Meta:
         ordering = ['title']
         verbose_name = 'Описание для контактов'
-        verbose_name_plural = 'Описание для доставки и оплаты'
+        verbose_name_plural = 'Описание для контактов'
 
     title = models.CharField(max_length=100, db_index=True, verbose_name='Название')
     description = RichTextUploadingField(blank=True, verbose_name='Описание')
