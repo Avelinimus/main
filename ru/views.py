@@ -78,9 +78,12 @@ def my_room(request):
     order_list = Order.objects.all()
     current_user = str(request.user)
     user = User.objects.get(username=current_user)
-    order = Order.objects.get(id=user.id)
-    order_item = OrderItem.objects.get(id=order.id)
-
+    try:
+        order = Order.objects.get(id=user.id)
+        order_item = OrderItem.objects.get(id=order.id)
+    except:
+        order = None
+        order_item = None
     cart = Cart(request)
     for item in cart:
         item['update_quantity_form'] = CartAddProductForm(initial={
