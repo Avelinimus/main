@@ -205,33 +205,6 @@ def order_create(request):
                                                                'form': form})
 
 
-def payment_process(request):
-    order_id = request.session.get('order_id')
-    order = get_object_or_404(Order, id=order_id)
-    host = request.get_host()
-
-    paypal_dict = {
-        'business': settings.PAYPAL_RECEIVER_EMAIL,
-        'amount': '%.2f' % order.get_total_cost().quantize(Decimal('.01')),
-        'item_name': 'Заказ {}'.format(order.id),
-        'invoice': str(order.id),
-        'currency_code': 'UAH',
-        'notify_url': 'http://{}{}'.format(host, reverse('paypal-ipn')),
-        'return_url': 'http://{}{}'.format(host, reverse('ru:done')),
-        'cancel_return': 'http://{}{}'.format(host, reverse('ru:canceled'))
-    }
-
-    form = PayPalPaymentsForm(initial=paypal_dict)
-    return render(request, 'ru/payment/process.html', {'order': order, 'form': form})
-
-
-@csrf_exempt
-def payment_done(request):
-    return render(request, 'ru/payment/done.html')
-
-
-@csrf_exempt
-def payment_canceled(request):
     return render(request, 'ru/payment/canceled.html')
 
 

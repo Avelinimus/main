@@ -46,7 +46,7 @@ class Products(models.Model):
     image = models.ImageField(upload_to='products/img/%Y/%m/%d/', blank=True,
                               verbose_name="Картинка для новостей (300 x 300)")
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена(грн)")
-    short_description = models.TextField(max_length=150, blank=True, verbose_name="Короткое описание в листе(150)")
+    short_description = models.TextField(max_length=200, blank=True, verbose_name="Короткое описание в листе(150)")
     description = RichTextUploadingField(blank=True, verbose_name="Детальное описание")
     created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
     available = models.BooleanField(default=True, verbose_name="Отображать")

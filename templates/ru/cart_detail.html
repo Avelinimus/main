@@ -46,7 +46,7 @@
                 <h3 style="text-align: center;color:#7e3d4a;">Пустая</h3>
             {% endif %}
 
-            <p style="text-align: right"><a href="{% url "ru:category_list"%}" style="color: navy">Продолжить покупки</a></p>
+            <p style="text-align: right"><a href="{% url "ru:category_list"%}" style="color: navy">Продолжить </a></p>
             {% if not cart.get_total_price_with_discount == 0 or not cart.get_total_price == 0 %}
                 <p style="text-align: right"><a href="{% url "ru:order_create"%}" style="color: navy">Оформить заказ</a></p>
             {% endif %}
