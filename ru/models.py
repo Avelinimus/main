@@ -1,6 +1,6 @@
 from decimal import Decimal
 from django.contrib.auth.models import User
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator, MinLengthValidator
 from django.db import models
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.db.models.signals import post_save
@@ -78,6 +78,7 @@ class Order(models.Model):
     address = models.CharField(verbose_name='Адрес', max_length=250)
     postal_code = models.CharField(verbose_name='Почтовый код', max_length=20)
     city = models.CharField(verbose_name='Город', max_length=100)
+    number_phone = models.CharField(verbose_name='Мобильный телефон(обязательное поле)', max_length=13, default='+380', validators=[MinLengthValidator(13)])
     created = models.DateTimeField(verbose_name='Создан', auto_now_add=True)
     updated = models.DateTimeField(verbose_name='Обновлен', auto_now=True)
     paid = models.BooleanField(verbose_name='Оплачен', default=False)
@@ -89,6 +90,9 @@ class Order(models.Model):
     def get_total_cost(self):
         cost = Decimal(sum(item.get_cost() for item in self.items.all()))
         return cost
+
+    def get_absolute_url(self):
+        return reverse('ru:my_room_order_detail', args={self.id})
 
 
 class OrderItem(models.Model):

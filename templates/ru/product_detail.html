@@ -16,7 +16,7 @@
             {% if product.discount > 0  %}
                 <h4 style="text-align: right">Цена без акции: {{ product.price }} грн.</h4>
                 <h4 style="text-align: right">Цена по акции: {{ product.get_discount }} грн.</h4>
-                <h4 style="text-align: right">Акция на продукт в: {{ product.discount }}%</h4>
+                <h4 style="text-align: right">Акция на продукт: {{ product.discount }}%</h4>
             {% else %}
                 <h4 style="text-align: right">Цена: {{ product.price }} грн.</h4>
             {% endif %}

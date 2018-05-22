@@ -15,7 +15,7 @@ class CartAddProductForm(forms.Form):
 class OrderCreateForm(forms.ModelForm):
     class Meta:
         model = Order
-        fields = ['user', 'first_name', 'last_name', 'email', 'address', 'postal_code',
+        fields = ['user', 'first_name', 'last_name', 'email', 'number_phone', 'address', 'postal_code',
                   'city']
         widgets = {
             'user': HiddenInput,
@@ -41,7 +41,6 @@ class CommentCreateForm(forms.ModelForm):
         widgets = {
             'author': HiddenInput,
         }
-
 
 
 class SupportForm(forms.ModelForm):

@@ -1,4 +1,5 @@
 from decimal import Decimal
+from ru.liqpay import LiqPay
 from .tasks import order_created
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -6,7 +7,7 @@ from django.contrib.auth.models import User
 from django.core.checks import messages
 from django.core.paginator import Paginator
 from django.db import transaction
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
@@ -29,6 +30,8 @@ from django.http import HttpResponse
 # Create your views here.
 
 def support(request):
+    category_list = Category.objects.all()
+    products_list = Products.objects.all()
     current_user = request.user
     if request.method == 'POST':
         form = SupportForm(request.POST)
@@ -42,10 +45,18 @@ def support(request):
             'email': current_user.email,
             'number_phone': current_user.profile.number_phone,
         })
-        return render(request, 'ru/supports/support.html', {'form': form})
+        return render(request, 'ru/supports/support.html', {
+            'form': form,
+            'category_list': category_list,
+            'products_list': products_list,
+        })
     except:
         form = SupportForm()
-        return render(request, 'ru/supports/support.html', {'form': form})
+        return render(request, 'ru/supports/support.html', {
+            'form': form,
+            'category_list': category_list,
+            'products_list': products_list,
+        })
 
 
 def contact(request):
@@ -109,7 +120,7 @@ def my_room(request):
         'user_form': user_form,
         'profile_form': profile_form,
         'cart': cart,
-        'user':user
+        'user': user
     })
 
 
@@ -177,9 +188,7 @@ def order_create(request):
                                              price=item['price'],
                                              quantity=item['quantity'])
             cart.clear()
-            order_created.delay(order.id)
-            request.session['order_id'] = order.id
-            return redirect(reverse('ru:process'))
+            return render(request, 'ru/orders/order_created.html', {'order': order})
     try:
         if request.user.is_anonymous:
             current_user = 1
@@ -193,9 +202,11 @@ def order_create(request):
                 'first_name': current_user.first_name,
                 'last_name': current_user.last_name,
                 'email': current_user.email,
+                'number_phone': current_user.profile.number_phone,
                 'address': current_user.profile.address,
                 'postal_code': current_user.profile.postal_code,
                 'city': current_user.profile.city,
+
             })
         return render(request, 'ru/orders/order_create.html', {'cart': cart, 'form': form})
     except:
@@ -205,7 +216,40 @@ def order_create(request):
                                                                'form': form})
 
 
-    return render(request, 'ru/payment/canceled.html')
+def my_room_order_detail(request, order_id):
+    cart = Cart(request)
+    category_list = Category.objects.all()
+    products_list = Products.objects.all()
+    current_user = str(request.user)
+    user = User.objects.get(username=current_user)
+    for item in cart:
+        item['update_quantity_form'] = CartAddProductForm(initial={
+            'quantity': item['quantity'],
+            'update': True
+        })
+    order = get_object_or_404(Order, id=order_id)
+    liqpay = LiqPay(settings.LIQPAY_PUBLIC_KEY, settings.LIQPAY_PRIVATE_KEY)
+    params = {
+        'action': 'pay',
+        'amount': float(order.get_total_cost()),
+        'currency': 'UAH',
+        'description': 'Номер заказа оплачен: ' + str(order_id),
+        'order_id': order_id,
+        'version': '3',
+        'sandbox': 1,  # sandbox mode, set to 1 to enable it
+        'server_url': 'https://test.com/billing/pay-callback/',  # url to callback view
+    }
+    signature = liqpay.cnb_signature(params)
+    data = liqpay.cnb_data(params)
+    return render(request, 'ru/orders/my-order.html', {
+        'cart': cart,
+        'order': order,
+        'category_list': category_list,
+        'products_list': products_list,
+        'user': user,
+        'data': data,
+        'signature': signature
+    })
 
 
 def shares_list_view(request):
@@ -262,7 +306,7 @@ def category_list_view(request):
     category_list = Category.objects.all()
     products_list = Products.objects.all()
     cart = Cart(request)
-    paginator = Paginator(products_list, 3)
+    paginator = Paginator(products_list, 4)
     page = request.GET.get('page')
     products = paginator.get_page(page)
     for item in cart:
@@ -307,8 +351,5 @@ def product_detail_view(request, slug):
         'comments_list': comments_list,
         'cart_product_form': cart_product_form,
         'comment_product_form': comment_product_form
-        })
-
-
-
+    })
 

@@ -1,6 +1,6 @@
-from django.conf.urls import url
 from django.urls import path
 from . import views
+from django.conf.urls import url
 
 urlpatterns = [
     path('contact/', views.contact, name='contact'),
@@ -23,5 +23,10 @@ urlpatterns += [
     url(r'^cart_detail/$', views.cart_detail, name='cart_detail'),
     url(r'^create_order/$', views.order_create, name='order_create'),
     url(r'^admin/order/(?P<order_id>\d+)/$', views.admin_order_detail, name='admin_order_detail'),
+    url(r'^my-room/order/(?P<order_id>\d+)/$', views.my_room_order_detail, name='my_room_order_detail'),
     # url(r'^admin/order/(?P<order_id>\d+)/pdf/$', views.admin_order_PDF, name='admin_order_PDF')
 ]
+
+
+
+

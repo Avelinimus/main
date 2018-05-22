@@ -177,3 +177,27 @@ EMAIL_HOST_PASSWORD = 'taras1234'
 DEFAULT_FROM_EMAIL = 'Avel'
 DEFAULT_TO_EMAIL = 'avel63146@gmail.com'
 
+# REQUIRED:
+
+# Public_key - the identifier of the created company. For example: i00000000
+LIQPAY_PUBLIC_KEY = 'i67941930303'
+
+# Private key of the created company (not available to anyone except your developer).
+# For example: a4825234f4bae72a0be04eafe9e8e2bada209255
+LIQPAY_PRIVATE_KEY = '7HpNhNvYNyA9fGTHLwhFigMz1093KTverQW4UlWa'
+
+# OPTIONAL:
+
+# Payment currency. Example value: USD, EUR, RUB, UAH, BYN, KZT.
+# Additional currencies can be added by company's request.
+# Default: UAH
+LIQPAY_DEFAULT_CURRENCY = 'UAH'
+
+# Language code
+# Default: uk
+LIQPAY_DEFAULT_LANGUAGE = 'ru'
+
+# Transaction type. Possible values: pay - payment, hold - amount of hold on sender's account,
+# subscribe - regular payment, paydonate - donation, auth - card preauth
+# Default: pay
+LIQPAY_DEFAULT_ACTION = 'pay'

@@ -14,12 +14,12 @@
         <div class="products">
             {% for product in products %}
                 {% if category.name|lower == product.category|lower %}
-                    <div class="col-12 col-lg-3 block" style="padding-bottom: 3%;float: left; margin-top: 3%;">
-                            <div class=" img-block" style="">
+                    <div class="col-12 col-lg-3 block" style="float: left;" align="center">
+                            <div class=" img-block" align="center">
                                  <a href="{{ product.get_absolute_url }}">
                                     <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "ru/images/no_image.png"%}{% endif %}"  class=" block">
-                                    {% if product.discount > 0 %}<img src="{% static "ru/images/ico_shares.png"%}" style="position: absolute;top: 0;">{% endif %}
-                                    <p class="short_description">{{ product.short_description }}</p>
+                                    {% if product.discount > 0 %}<img src="{% static "ru/images/ico_shares.png"%}" style="position: absolute;top: 0;left: 10px">{% endif %}
+                                    <p class="short_description" align="center">{{ product.short_description }}</p>
                                  </a>
                                 <h3 class="name_product">{{ product.name }}</h3>
                             </div>
