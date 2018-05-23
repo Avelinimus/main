@@ -82,7 +82,8 @@ class Order(models.Model):
     created = models.DateTimeField(verbose_name='Создан', auto_now_add=True)
     updated = models.DateTimeField(verbose_name='Обновлен', auto_now=True)
     paid = models.BooleanField(verbose_name='Оплачен', default=False)
-    sent = models.BooleanField(verbose_name='Товар отправлен', default=False)
+    sent = models.BooleanField(verbose_name='Товар отправлен', default=False, help_text='Переводит заказ в отправленный')
+    take_client = models.BooleanField(verbose_name='Товар забрали', default=False, help_text='Переводит заказ в забранный')
 
     def __str__(self):
         return 'Заказ: {}'.format(self.id)

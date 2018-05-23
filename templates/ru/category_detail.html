@@ -18,7 +18,7 @@
                             <div class=" img-block" align="center">
                                  <a href="{{ product.get_absolute_url }}">
                                     <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "ru/images/no_image.png"%}{% endif %}"  class=" block">
-                                    {% if product.discount > 0 %}<img src="{% static "ru/images/ico_shares.png"%}" style="position: absolute;top: 0;left: 10px">{% endif %}
+                                    {% if product.discount > 0 %}<img src="{% static "ru/images/ico_shares.png"%}" class="shares">{% endif %}
                                     <p class="short_description" align="center">{{ product.short_description }}</p>
                                  </a>
                                 <h3 class="name_product">{{ product.name }}</h3>

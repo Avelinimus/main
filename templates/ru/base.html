@@ -69,8 +69,8 @@
         <div class="col-12"><a href="{% url "ru:category_list" %}"><img src="{% static 'ru/images/main_img.png' %}" align="center"></a>
         </div>
         <div class="col-12 categories" style="padding-top: 15px;">
-            <ul>
-                {% for category in category_list %}
+            <ul style="padding: 0;margin: 0">
+                {% for category in category_list_static %}
                     {% if category.available %}
                         {% if category.rel_category.count %}
                             <li>

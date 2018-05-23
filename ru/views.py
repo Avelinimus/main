@@ -1,3 +1,4 @@
+import random
 from decimal import Decimal
 from ru.liqpay import LiqPay
 from .tasks import order_created
@@ -30,7 +31,7 @@ from django.http import HttpResponse
 # Create your views here.
 
 def support(request):
-    category_list = Category.objects.all()
+    category_list_static = Category.objects.all()
     products_list = Products.objects.all()
     current_user = request.user
     if request.method == 'POST':
@@ -47,24 +48,24 @@ def support(request):
         })
         return render(request, 'ru/supports/support.html', {
             'form': form,
-            'category_list': category_list,
+            'category_list_static': category_list_static,
             'products_list': products_list,
         })
     except:
         form = SupportForm()
         return render(request, 'ru/supports/support.html', {
             'form': form,
-            'category_list': category_list,
+            'category_list_static': category_list_static,
             'products_list': products_list,
         })
 
 
 def contact(request):
     contacts = Contact.objects.all()
-    category_list = Category.objects.all()
+    category_list_static = Category.objects.all()
     products_list = Products.objects.all()
     return render(request, 'ru/contact.html', {
-        'category_list': category_list,
+        'category_list_static': category_list_static,
         'products_list': products_list,
         'contacts': contacts
     })
@@ -72,10 +73,10 @@ def contact(request):
 
 def payment(request):
     payments = Payment.objects.all()
-    category_list = Category.objects.all()
+    category_list_static = Category.objects.all()
     products_list = Products.objects.all()
     return render(request, 'ru/payment.html', {
-        'category_list': category_list,
+        'category_list_static': category_list_static,
         'products_list': products_list,
         'payments': payments
     })
@@ -84,7 +85,7 @@ def payment(request):
 @login_required
 @transaction.atomic
 def my_room(request):
-    category_list = Category.objects.all()
+    category_list_static = Category.objects.all()
     products_list = Products.objects.all()
     order_list = Order.objects.all()
     current_user = str(request.user)
@@ -112,7 +113,7 @@ def my_room(request):
         user_form = UserForm(instance=request.user)
         profile_form = ProfileForm(instance=request.user.profile)
     return render(request, 'ru/my_room.html', {
-        'category_list': category_list,
+        'category_list_static': category_list_static,
         'products_list': products_list,
         'order_list': order_list,
         'order': order,
@@ -132,7 +133,7 @@ def comment_add(request, product_id):
             comment.comments_product = Products.objects.get(id=product_id)
             comment.author = request.user
             form.save()
-            return redirect('ru:category_list')
+            return redirect('ru:category_list_static')
 
 
 @require_POST
@@ -155,7 +156,7 @@ def cart_remove(request, product_id):
 
 
 def cart_detail(request):
-    category_list = Category.objects.all()
+    category_list_static = Category.objects.all()
     products_list = Products.objects.all()
     cart = Cart(request)
     for item in cart:
@@ -164,7 +165,7 @@ def cart_detail(request):
             'update': True
         })
     return render(request, 'ru/cart_detail.html', {
-        'category_list': category_list,
+        'category_list_static': category_list_static,
         'products_list': products_list,
         'cart': cart
     })
@@ -218,7 +219,7 @@ def order_create(request):
 
 def my_room_order_detail(request, order_id):
     cart = Cart(request)
-    category_list = Category.objects.all()
+    category_list_static = Category.objects.all()
     products_list = Products.objects.all()
     current_user = str(request.user)
     user = User.objects.get(username=current_user)
@@ -244,7 +245,7 @@ def my_room_order_detail(request, order_id):
     return render(request, 'ru/orders/my-order.html', {
         'cart': cart,
         'order': order,
-        'category_list': category_list,
+        'category_list_static': category_list_static,
         'products_list': products_list,
         'user': user,
         'data': data,
@@ -253,7 +254,7 @@ def my_room_order_detail(request, order_id):
 
 
 def shares_list_view(request):
-    category_list = Category.objects.all()
+    category_list_static = Category.objects.all()
     products_list = Products.objects.all()
     paginator = Paginator(products_list, 20)
     page = request.GET.get('page')
@@ -265,7 +266,7 @@ def shares_list_view(request):
             'update': True
         })
     return render(request, 'ru/shares.html', {
-        'category_list': category_list,
+        'category_list_static': category_list_static,
         'products_list': products_list,
         'cart': cart,
         'products': products
@@ -303,8 +304,9 @@ def admin_order_PDF(request, order_id):
 
 
 def category_list_view(request):
-    category_list = Category.objects.all()
-    products_list = Products.objects.all()
+    category_list_static = Category.objects.all()
+    category_list = Category.objects.order_by('?')[:30]
+    products_list = Products.objects.order_by('?')[:1000]
     cart = Cart(request)
     paginator = Paginator(products_list, 4)
     page = request.GET.get('page')
@@ -317,20 +319,21 @@ def category_list_view(request):
     return render(request, 'ru/category_list.html', {
         'category_list': category_list,
         'products_list': products_list,
+        'category_list_static': category_list_static,
         'cart': cart,
         'products': products
     })
 
 
 def category_detail_view(request, slug):
-    category_list = Category.objects.all()
+    category_list_static = Category.objects.all()
     products_list = Products.objects.all()
     category = get_object_or_404(Category, slug=slug, available=True)
     paginator = Paginator(products_list, 20)
     page = request.GET.get('page')
     products = paginator.get_page(page)
     return render(request, 'ru/category_detail.html', {
-        'category_list': category_list,
+        'category_list_static': category_list_static,
         'products_list': products_list,
         'category': category,
         'products': products
@@ -338,14 +341,14 @@ def category_detail_view(request, slug):
 
 
 def product_detail_view(request, slug):
-    category_list = Category.objects.all()
+    category_list_static = Category.objects.all()
     products_list = Products.objects.all()
     comments_list = Comments.objects.all()
     cart_product_form = CartAddProductForm()
     product = get_object_or_404(Products, slug=slug, available=True)
     comment_product_form = CommentCreateForm(initial={})
     return render(request, 'ru/product_detail.html', {
-        'category_list': category_list,
+        'category_list_static': category_list_static,
         'products_list': products_list,
         'product': product,
         'comments_list': comments_list,

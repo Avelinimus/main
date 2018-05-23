@@ -12,7 +12,7 @@
         <div class="col-12 advertising" align="center"><img class="advertising" src="{% static 'ru/images/slide_shoot.png' %}" width="600" height="400" align="center">
         </div>
 
-       <div class="products"    >
+       <div class="products" >
             {% for category in category_list %}
                 {% if category.available %}
                     {% if category.rel_category.count %}
@@ -23,16 +23,18 @@
                     {% if category.available %}
                         {% if product.available %}
                             {% if product.category|lower == category.name|lower %}
+                                {% if product%}
                                 <div class="col-12 col-lg-3" style="float: left" align="center">
-                                    <div class="img-block">
+                                    <div class="img-block" >
                                         <a href="{{ product.get_absolute_url }}">
-                                        <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "ru/images/no_image.png"%}{% endif %}" width="300" height="300" class="block">
-                                        {% if product.discount > 0 %}<img src="{% static "ru/images/ico_shares.png"%}" style="position: absolute;top: 0;left: 10px">{% endif %}
                                         <p class="short_description">{{ product.short_description }}</p>
+                                        <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "ru/images/no_image.png"%}{% endif %}" width="300" height="300" class="block">
+                                        {% if product.discount > 0 %}<img src="{% static "ru/images/ico_shares.png"%}" class="shares">{% endif %}
                                         </a>
                                         <h3 class="name_product">{{ product.name }}</h3>
                                     </div>
                                 </div>
+                                {% endif %}
                             {% endif %}
                         {% endif %}
                     {% endif %}
