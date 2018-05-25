@@ -9,7 +9,18 @@
 
 <body>
     {% block content %}
-        <div class="col-12 advertising" align="center"><img class="advertising" src="{% static 'ru/images/slide_shoot.png' %}" width="600" height="400" align="center">
+        <div class="col-12"  align="center">  <div class="slider" id="main-slider"><!-- outermost container element -->
+	<div class="slider-wrapper"><!-- innermost wrapper element -->
+		<div class="slide" data-image="{% static "ru/images/anime.jpg"%}"></div><!-- slides -->
+		<div class="slide" data-image="DSC_3360.jpg"></div>
+		<div class="slide" data-image="DSC_3425.jpg"></div>
+	</div>
+	<div class="slider-nav"><!-- "Previous" and "Next" actions -->
+		<button class="slider-previous">Previous</button>
+		<button class="slider-next">Next</button>
+	</div>
+</div>
+
         </div>
 
        <div class="products" >
@@ -29,7 +40,13 @@
                                         <a href="{{ product.get_absolute_url }}">
                                         <p class="short_description">{{ product.short_description }}</p>
                                         <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "ru/images/no_image.png"%}{% endif %}" width="300" height="300" class="block">
-                                        {% if product.discount > 0 %}<img src="{% static "ru/images/ico_shares.png"%}" class="shares">{% endif %}
+                                            {% if product.discount > 0 %}
+                                                <div class="shares">
+                                                    <p class="p_shares"><span style="text-decoration: line-through;">{{ product.price }}грн.</span></p>
+                                                    <p class="p_shares">{{ product.get_discount }}грн.</p>
+                                                    <p class="p_shares">Акция в {{ product.discount }} %</pc>
+                                                </div>
+                                            {% endif %}
                                         </a>
                                         <h3 class="name_product">{{ product.name }}</h3>
                                     </div>

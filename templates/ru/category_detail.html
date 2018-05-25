@@ -18,8 +18,13 @@
                             <div class=" img-block" align="center">
                                  <a href="{{ product.get_absolute_url }}">
                                     <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "ru/images/no_image.png"%}{% endif %}"  class=" block">
-                                     {% if product.discount > 0 %}<div class="shares" style=""><img src="{% static "ru/images/ico_shares.png"%}">dsafaogjasof</div>{% endif %}
-
+                                     {% if product.discount > 0 %}
+                                         <div class="shares">
+                                             <p class="p_shares"><span style="text-decoration: line-through;">{{ product.price }}грн.</span></p>
+                                             <p class="p_shares">{{ product.get_discount }}грн.</p>
+                                             <p class="p_shares">Акция в {{ product.discount }} %</pc>
+                                         </div>
+                                     {% endif %}
                                     <p class="short_description" align="center">{{ product.short_description }}</p>
                                  </a>
                                 <h3 class="name_product">{{ product.name }}</h3>
