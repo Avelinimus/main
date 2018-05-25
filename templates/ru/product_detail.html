@@ -32,12 +32,12 @@
                 <form action="{% url "ru:comment_add" product.id %}" method="post" class="add_comment_form">
                     {% csrf_token %}
                     {{ comment_product_form.as_p }}
-                    <input type="submit" value="Send comment" />
+                    <input type="submit" value="Отправить   " />
                 </form>
             </div>
         {% else %}
             <p align="center" style="margin: auto;padding-top: 79px">Что бы оставить комментарий вам нужно быть авторизованым.</p>
-            <p align="center" style="margin: auto"><a href="{% url 'account_signup' %}"> Регистрация</a>/<a href="{% url 'account_login' %}">Вход</a></p>
+            <p align="center" style="margin: auto;padding-top: 20px"><a href="{% url 'account_signup' %}"> Регистрация</a>/<a href="{% url 'account_login' %}">Вход</a></p>
         {% endif %}
         <div>
             <h4 style="color: #7e3d4a; margin: auto;width: 100%" align="center">Комментарии:</h4>

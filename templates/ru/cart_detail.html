@@ -48,7 +48,11 @@
 
             <p style="text-align: right"><a href="{% url "ru:category_list"%}" style="color: navy">Продолжить </a></p>
             {% if not cart.get_total_price_with_discount == 0 or not cart.get_total_price == 0 %}
-                <p style="text-align: right"><a href="{% url "ru:order_create"%}" style="color: navy">Оформить заказ</a></p>
+                {% if user.is_active%}
+                    <p style="text-align: right"><a href="{% url "ru:order_create"%}" style="color: navy">Оформить заказ</a></p>
+                {% else %}
+                    <p style="text-align: right"><a href="{% url 'account_signup' %}"> Регистрация</a>/<a href="{% url 'account_login' %}">Вход</a></p>
+                {% endif %}
             {% endif %}
         </div>
 

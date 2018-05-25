@@ -35,27 +35,27 @@
                     <button type="submit" style="margin-top: 30px ">Сохранить изменения</button>
                 </form>
             </div>
-            {% if user.is_staff %}<h3 style="text-align: center"><a href="{% url 'admin:index' %}" style="color: #7e3d4a">Административная панель</a></h3>{% endif %}
-            <h3 style="text-align: center"><a href="{% url 'ru:support'%}" style="color: #7e3d4a">Служба поддержки</a></h3>
-            <h3 style="text-align: center; margin-bottom: 50px"><a href="{% url 'account_logout' %}" style="color: #7e3d4a">Выйти из аккаунта</a></h3>
-
         </div>
         <div class="col-12 col-md-8 " style="color: #7e3d4a">
-
         <p style="text-align: center">Мои заказы:</p>
             {% if not order_list == 0 %}
                 {% for order in order_list %}
                     {% if order.user.id|lower == user.id|lower %}
                         {% if not order.take_client %}
                             {% if not order.sent %}
-                                <p style="text-align: center">Активный заказ: № <a href="{{ order.get_absolute_url }}">{{ order.id }}</a></p>
+                                <p style="text-align: center"><a href="{{ order.get_absolute_url }}">Активный заказ: № {{ order.id }}</a></p>
                             {% else %}
-                                <p style="text-align: center">Заказ в пути: № <a href="{{ order.get_absolute_url }}"> {{ order.id }}</a></p>
+                                <p style="text-align: center"><a href="{{ order.get_absolute_url }}">Заказ в пути: № {{ order.id }}</a></p>
                             {% endif %}
                         {% endif %}
                     {% endif %}
                 {% endfor %}
             {% endif %}
+        </div>
+        <div class="col-4">
+            {% if user.is_staff %}<h3 style="text-align: center"><a href="{% url 'admin:index' %}" style="color: #7e3d4a">Административная панель</a></h3>{% endif %}
+            <h3 style="text-align: center"><a href="{% url 'ru:support'%}" style="color: #7e3d4a">Служба поддержки</a></h3>
+            <h3 style="text-align: center; margin-bottom: 50px"><a href="{% url 'account_logout' %}" style="color: #7e3d4a">Выйти из аккаунта</a></h3>
         </div>
     {% endblock %}
 </body>

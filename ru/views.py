@@ -171,6 +171,7 @@ def cart_detail(request):
     })
 
 
+@login_required
 def order_create(request):
     cart = Cart(request)
     if request.method == 'POST':
